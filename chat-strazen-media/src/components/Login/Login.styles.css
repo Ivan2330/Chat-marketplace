@@ -1,0 +1,175 @@
+.container-login {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 165px;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .container-login {
+    padding: 16px;
+  }
+}
+
+.container-login-all { 
+ position: relative;
+ 
+  
+}
+
+
+@media (max-width: 1200px) {
+.container-login-all { 
+  display: flex;
+  flex-direction: column-reverse;
+}
+}
+
+.heading {
+  font-size: 48px;
+  margin-bottom: 6px;
+}
+
+.welcome {   
+   display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  padding: 48px;
+  background-color: #14161f; 
+  text-align: center;
+  border-radius: 24px;
+  margin-bottom: 24px;
+  max-width: 535px;
+}
+
+.elipse-login {
+   position: absolute;
+   top: 0;
+   left: 0;
+   border-top-left-radius: 24px;
+ 
+}
+
+.elipse-img {
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+
+}
+
+
+img {
+  pointer-events: none;
+}
+
+
+
+@media (min-width: 1200px) {
+  .welcome {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 290px 48px;
+    background-color: #14161f;   
+    text-align: center;
+    border-radius: 24px;
+  }
+}
+
+.text-login {
+  color: #a1a2a5;
+  font-size: 14px;
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px 24px;
+  max-width: 219px;
+  display: flex;
+  align-self: center;
+  margin-top: 48px;
+  margin-bottom: 48px;
+  cursor: pointer;
+}
+
+.container-img-btn {
+margin-right: 12px;
+}
+
+.frame {
+  padding: 120px 0;
+  background-color: #2f303a;
+  max-width: 535px;
+  background-size: cover;
+  background-position: left;
+  text-align: center;
+}
+
+@media screen and (max-width: 479px) {
+  .frame {
+  
+    background-image: url("../../assets/Frame 1x.png");
+    border-radius: 24px;
+  }
+}
+
+@media screen and (max-width: 479px) and (min-device-pixel-ratio: 2),
+  screen and (max-width: 479px) and (-webkit-min-device-pixel-ratio: 2),
+  screen and (max-width: 479px) and (min-resolution: 192dpi),
+  screen and (max-width: 479px) and (min-resolution: 2dppx) {
+  .frame {
+    background-image: url("../../assets/Frame-small 2x.png");
+    border-radius: 24px;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+  .frame {
+    padding: 220px 0;
+  
+    background-image: url("../../assets/Frame-small 1x.png");
+    border-radius: 24px;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) and (min-device-pixel-ratio: 2),
+  screen and (min-width: 480px) and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2),
+  screen and (min-width: 480px) and (max-width: 767px) and (min-resolution: 192dpi),
+  screen and (min-width: 480px) and (max-width: 767px) and (min-resolution: 2dppx) {
+  .frame {
+    padding: 220px 0;
+    background-image: url("../../assets/Frame-small 2x.png");
+    border-radius: 24px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .frame {
+   
+    padding: 220px 0;
+    background-image: url("../../assets/Frame 1x.png");
+    border-radius: 24px;
+  }
+}
+
+@media screen and (min-width: 768px) and (min-device-pixel-ratio: 2),
+  screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2),
+  screen and (min-width: 768px) and (min-resolution: 192dpi),
+  screen and (min-width: 768px) and (min-resolution: 2dppx) {
+  .frame {
+    padding: 220px 0;
+    background-image: url("../../assets/Frame 2x.png");
+    border-radius: 24px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .frame {
+    border-radius: 24px;
+    height: 877px;
+     background-image: url("../../assets/Frame 1x.png");
+  }
+}

@@ -1,0 +1,165 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 64px 165px;
+  }
+}
+@media (min-width: 1200px) {
+  .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 64px 165px;
+  }
+}
+
+.logo-footer {
+  font-family: Urbanist, sans-serif;
+  font-size: 24px;
+  color: #ffffff;
+  margin-right: 48px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.container-footer {
+  display: flex;
+}
+
+.text {
+  font-size: 16px;
+  color: #a1a2a5;
+  max-width: 491px;
+}
+
+.icon-list {
+  display: flex;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  gap: 12px;
+}
+
+.icon-list-item {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 9px;
+  border-radius: 24px;
+  border: none;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contacts-company {
+  font-style: normal;
+
+  font-size: 16px;
+  color: #a1a2a5;
+}
+
+.conatcts-list {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.container-links {
+  display: flex;
+  gap: 64px;
+}
+
+@media (max-width: 1200px) {
+  .container-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: 126px;
+  }
+}
+
+.contacts-text {
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.contact-text-link {
+  font-size: 16px;
+  color: #a1a2a5;
+  margin-bottom: 12px;
+}
+
+.contact-text-link:last-child {
+  margin-bottom: 0px;
+}
+
+.container-footer-dowm {
+  display: flex;
+  justify-content: space-between;
+  padding: 84px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-left: 165px;
+  margin-right: 165px;
+}
+
+
+
+
+@media (max-width: 1200px) {
+  .container-footer-dowm {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    text-align: center;
+    margin-left: 16px;
+    margin-right: 16px;
+      padding: 64px 0;
+    margin-top: 64px;
+    gap: 12px;
+  }
+}
+
+.rights-txt {
+  font-size: 16px;
+  color: #a1a2a5;
+}
+
+.links-terms-item {
+  display: flex;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .links-terms-item {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 1200px) {
+  .links-terms-item {
+    justify-content: space-between;
+  }
+}
+
+.links-terms {
+  list-style: none;
+  font-size: 16px;
+  color: #a1a2a5;
+  transition: color 0.2s ease;
+}
+
+
+.links-terms:hover {
+  
+  color: #6b50ef;
+}
+

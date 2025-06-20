@@ -1,0 +1,89 @@
+.tearms-head {
+  font-size: 48px;
+}
+
+.tearms-small-text {
+  color: #a1a2a5;
+  font-size: 16px;
+  margin-top: 24px;
+}
+
+.container-tearms {
+  position: relative;
+  padding: 80px 0;
+  background-color: #12141d;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.container-toogle-terms {
+  position: absolute;
+  top: 0;
+  left: 10%;
+}
+
+@media (max-width: 767px) {
+  .container-toogle-terms {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 159px;
+  }
+}
+
+
+.info {
+  padding: 80px 165px;
+}
+
+
+@media (max-width: 1200px) {
+.info {
+  padding: 16px;
+}
+}
+
+.text-terms {
+  font-size: 16px;
+  color: #a1a2a5;
+  margin-bottom: 20px;
+}
+
+.text-terms-last {
+  font-size: 16px;
+  color: #a1a2a5;
+  margin-bottom: 20px;
+  margin-top:24px;
+}
+
+
+.list-item-paragraph {
+font-size: 16px;
+color: #A1A2A5;
+}
+ 
+
+.tearms-list-item{
+    font-size: 24px;
+    margin-top: 64px;
+    margin-bottom: 24px;
+}
+
+.text-terms-list {
+font-size: 16px;
+  color: #a1a2a5;
+}
+
+.list-terams-dot {
+  position: relative;
+  top: -10px;
+  border-radius: 50%;
+  background-color: #a1a2a5;
+  width: 2px;
+  height: 2px;
+  margin-left: 12px;
+}
+
+.list-terams-dot-left {
+    margin-left: 22px;
+}

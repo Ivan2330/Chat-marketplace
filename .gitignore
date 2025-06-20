@@ -1,0 +1,29 @@
+# Node.js
+node_modules/
+.env
+dist/
+.vscode/
+.DS_Store
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.env.*
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# others
+*.sqlite3
+*.db
+.cache/
+build/
+.idea/
+coverage/

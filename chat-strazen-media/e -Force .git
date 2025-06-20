@@ -1,0 +1,41 @@
+[33mcommit 055ca1e00ca2dfa90f514a36fb436aa3a82e3c39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Mon Jun 9 02:17:31 2025 +0300
+
+    change backend
+
+[33mcommit 4791fd9b0fc0e3102ad000102b60ee367bcac277[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Mon Jun 9 02:02:27 2025 +0300
+
+    chaynge package
+
+[33mcommit 1976fb7045dd20c89baa550d4c9fd207cf7c6098[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Sat Jun 7 11:22:58 2025 +0300
+
+    changestyles
+
+[33mcommit 8b16e387fbbd594e88670b8cfba405fe12fe14f1[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Sat Jun 7 11:04:00 2025 +0300
+
+    deploy
+
+[33mcommit abccd14536b7b476f08299343171c8f7f47ccd2e[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Sat Jun 7 08:29:56 2025 +0300
+
+    change package
+
+[33mcommit eec56a97e414af1887480e4fa601c229154bbe2a[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Sat Jun 7 08:26:19 2025 +0300
+
+    add backeend
+
+[33mcommit a3338c564666db76e0b48ec6854e9eb9a9d708a8[m
+Author: Dmytro Kyselov <106411942+Dimka1989k@users.noreply.github.com>
+Date:   Sat Jun 7 08:22:11 2025 +0300
+
+    add frontend
