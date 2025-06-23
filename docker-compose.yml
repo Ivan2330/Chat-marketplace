@@ -18,7 +18,7 @@ services:
 
   nginx:
     build:
-      context: ./frontend
+      context: ./chat-strazen-media
       args:
         VITE_API_URL: "https://starzen-psychics.com/api"
         VITE_WS_URL: "wss://starzen-psychics.com"
