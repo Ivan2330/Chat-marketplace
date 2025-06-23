@@ -7,6 +7,7 @@ import peopleIcon from "../../assets/ion_people.png";
 import { googleLogout } from "@react-oauth/google";
 import plusBalance from "../../assets/icon-plus.png";
 import iconLogout from "../../assets/icon-logout.png";
+import prof_image from "../../assets/prof_image.svg"
 
 export default function Header({ userProfile, onLogout }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -91,7 +92,7 @@ export default function Header({ userProfile, onLogout }) {
             {userProfile ? (
               <div className="user-info-header">
                 <div className="container-balance-img">
-                  <p className="balance-price"><span className="text-balance-price">Balance:</span>$50.00</p>
+                  <p className="balance-price"><span className="text-balance-price">Raise Your Balance:</span></p>
                   <Link className="balance-button" to="/topup">
                     <img
                       src={plusBalance}
@@ -107,14 +108,13 @@ export default function Header({ userProfile, onLogout }) {
                   ref={avatarRef}
                 >
                   <img
-                    src={userProfile.picture}
+                    src={prof_image}
                     alt="User Avatar"
                     style={{
                       width: 24,
                       height: 24,
                       borderRadius: "50%",
                     }}
-                    title={`Logged in as ${userProfile.name}`}
                   />
                 </button>
                 {showLogoutButton && (

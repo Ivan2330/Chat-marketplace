@@ -13,6 +13,7 @@ import eclisse from "../../assets/eclipse 1x.png";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { API_URL } from "../../../config";
 
 export default function Psychic() {
   const [expert, setExpert] = useState(null);
@@ -20,7 +21,7 @@ export default function Psychic() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/users/expert")
+    fetch(`${API_URL}/users/expert`)
       .then(res => res.json())
       .then(data => setExpert(data))
       .catch(err => console.error("Failed to load expert info", err));
@@ -30,7 +31,7 @@ export default function Psychic() {
     if (!token) return navigate("/login");
 
     try {
-      const res = await fetch("http://localhost:8000/chats/init", {
+      const res = await fetch(`${API_URL}/chats/init`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

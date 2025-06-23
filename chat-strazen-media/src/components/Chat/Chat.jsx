@@ -1,4 +1,3 @@
-// ОНОВЛЕНИЙ Chat.jsx з адаптивністю, юзернеймами, часом і аватарками
 import React, { useEffect, useState, useRef } from 'react';
 import './Chat.styles.css';
 import { IoChevronBack } from "react-icons/io5";
@@ -7,17 +6,20 @@ import iconStar from '../../assets/iconstar.png';
 import iconExpert from '../../assets/icon-girl.png';
 import buttonSend from '../../assets/icon-send.png';
 import { useParams, useNavigate } from "react-router-dom";
+import { API_URL, WS_URL } from '../../../config';
 
 const formatTimestamp = (timestamp) => {
   if (!timestamp) return "–";
   const date = new Date(timestamp);
-  const now = new Date();
-
-  const isToday = date.toDateString() === now.toDateString();
-  const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const time = date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
   const formattedDate = date.toLocaleDateString();
-  return isToday ? `Today, ${time}` : `${formattedDate} ${time}`;
+  return `${formattedDate}, ${time}`;
 };
+
+
 
 const Chat = () => {
   const { chatId } = useParams();
@@ -35,12 +37,21 @@ const Chat = () => {
   const [showChatList, setShowChatList] = useState(true);
   const ws = useRef(null);
   const timerRef = useRef(null);
+  const bottomRef = useRef();
 
-  const startTimer = () => {
-    setTimeLeft((prev) => (prev !== null ? prev : 5));
+  const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const startTimer = (initialMinutes) => {
+    stopTimer();
+    setTimeLeft(initialMinutes);
     timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev !== null && prev > 1) return prev - 1;
+      setTimeLeft(prev => {
+        if (prev > 1) return prev - 1;
         clearInterval(timerRef.current);
         setIsBlocked(true);
         return 0;
@@ -48,35 +59,45 @@ const Chat = () => {
     }, 60000);
   };
 
-  const stopTimer = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
+  const fetchFreshUser = async () => {
+    const token = localStorage.getItem("accessToken");
+    const res = await fetch(`${API_URL}/users/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const userData = await res.json();
+    setUser(userData);
+    setTimeLeft(userData.minutes_left);
+    setUserId(userData._id);
+    setRole(userData.role);
+    return userData;
   };
 
-  const connectWebSocket = (chatId, token, userRole) => {
+  const connectWebSocket = async (chatId, token, userRole) => {
+    const updatedUser = await fetchFreshUser();
     if (!chatId || !token) return;
-    ws.current = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}?token=${token}`);
+    ws.current = new WebSocket(`${WS_URL}/ws/chat/${chatId}?token=${token}`);
     setWsClosed(false);
 
     ws.current.onopen = () => {
       setIsBlocked(false);
-      if (userRole === "client") startTimer();
+      if (updatedUser.role === "client") startTimer(updatedUser.minutes_left);
     };
 
     ws.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.error) {
         alert(data.error);
-        if (role === "client") setIsBlocked(true);
+        if (updatedUser.role === "client") setIsBlocked(true);
         stopTimer();
         return;
       }
       if (data.text) {
-        setMessages((prev) => [...prev, data]);
+        setMessages(prev => [...prev, data]);
       }
     };
 
     ws.current.onclose = () => {
-      setIsBlocked(role === "client");
+      setIsBlocked(updatedUser.role === "client");
       setWsClosed(true);
       stopTimer();
     };
@@ -84,7 +105,7 @@ const Chat = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/chats/message/${chatId}`);
+      const res = await fetch(`${API_URL}/chats/message/${chatId}`);
       const data = await res.json();
       setMessages(data);
     } catch (err) {
@@ -96,15 +117,9 @@ const Chat = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) return;
     try {
-      const res = await fetch("http://localhost:8000/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const userData = await res.json();
-      setUser(userData);
-      setUserId(userData._id);
-      setRole(userData.role);
+      const userData = await fetchFreshUser();
 
-      const chatsRes = await fetch("http://localhost:8000/chats/init", {
+      const chatsRes = await fetch(`${API_URL}/chats/init`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const chatsData = await chatsRes.json();
@@ -129,8 +144,23 @@ const Chat = () => {
     return () => {
       if (ws.current) ws.current.close();
       stopTimer();
+      setMessages([]);
     };
   }, [chatId]);
+
+  useEffect(() => {
+    const handleUnload = () => stopTimer();
+    window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("blur", stopTimer);
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+      window.removeEventListener("blur", stopTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="chat-app-container">
@@ -139,9 +169,7 @@ const Chat = () => {
           {allChats
             .sort((a, b) => new Date(b.last_message_at || 0) - new Date(a.last_message_at || 0))
             .map(chat => {
-              const other = chat.participants.find(p => p !== userId);
-              const isAdmin = role === 'admin';
-              const username = isAdmin ? chat.participants.find(p => p !== userId) : other;
+              const other = chat.usernames?.find(name => name !== user?.username);
               return (
                 <div
                   key={chat._id}
@@ -154,7 +182,7 @@ const Chat = () => {
                   <div className="conversation_info">
                     <div className="container-icon-text">
                       <img src={iconExpert} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%' }} />
-                      <span className="expert_name" style={{ marginLeft: 12 }}>{username}</span>
+                      <span className="expert_name" style={{ marginLeft: 12 }}>{other}</span>
                       <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
                     </div>
                   </div>
@@ -167,12 +195,15 @@ const Chat = () => {
           <div className="chat_window_header">
             <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
             <div className="header_info">
-              <h3 className="exper-name">Chat</h3>
+              <h3 className="expert-name">Chat</h3>
               <div className="container-dot">
                 <span className="status_dot online"></span>
                 <span className="status_text online">Online</span>
               </div>
             </div>
+            {role === "client" && timeLeft !== null && (
+              <span className="time-left">⏳ {timeLeft} min</span>
+            )}
             <img src={smallMonn} alt="smallMonn" style={{ width: 36, height: 36 }} />
           </div>
 
@@ -181,9 +212,11 @@ const Chat = () => {
               <div key={idx} className={`message_bubble_wrapper ${msg.sender_id === userId ? 'my_message' : 'their_message'}`}>
                 <div className="message_content">
                   <p className="message_text">{msg.text}</p>
+                  <span className="message_time">{formatTimestamp(msg.timestamp)}</span>
                 </div>
               </div>
             ))}
+            <div ref={bottomRef}></div>
           </div>
 
           <div className="inputtext_container">

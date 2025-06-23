@@ -4,7 +4,7 @@ from app.core.config import settings
 from app.core.database import connect_to_mongo
 from app.core import database
 from app.routes import auth, users, transaction, subscription, plans, chats, chat_ws, stripe, webhook
-
+from app.core.initialize_data import initialize_data
 
 app = FastAPI(title="Chat Platform")
 
@@ -12,6 +12,7 @@ app = FastAPI(title="Chat Platform")
 async def startup_event():
     await connect_to_mongo()
     await database.db["users"].create_index("email", unique=True)
+    await initialize_data()
     print("Connected:", database.db.name)
 
 @app.get("/")

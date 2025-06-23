@@ -52,24 +52,26 @@ white-space: nowrap;
 }
 }
 
-
+/* те що поміняв Кіріч*/
 .chat-layout {
   display: flex;  
-  height: 85vh; 
-  border-radius: 10px;
-
- 
+  height: 75vh; 
+  /* overflow: scroll; */
+  border-radius: 10px;/*під питанням  */
+  
 }
 
 
 .chat_list_panel {
-  flex: 0 0 450px; 
-  background-color: transparent; 
-  border-right: 1px solid #20222a; 
+  flex: 0 0 450px;
+  background-color: transparent;
+  border-right: 1px solid #20222a;
   display: flex;
   flex-direction: column;
-  padding: 24px 24px 24px 0px;  
- 
+  padding: 24px 24px 24px 0px;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 75vh;
 }
 @media (max-width: 768px) {
 .chat_list_panel { 
@@ -124,21 +126,16 @@ margin-bottom: 4px;
 
 .conversation_info {
   display: flex;
+  width: 100%;
   align-items: center;
- 
-}
-
-
-.conversation_info {
-  display: flex; 
   justify-content: flex-start;
   margin-bottom: 6px;
-  
 }
 
 .container-icon-text {
 display: flex;
 align-items: center;
+width: 100%;
 }
 
 
@@ -154,22 +151,21 @@ align-items: center;
   color: #ffffff;
   margin-left: 12px;
   font-size: 17px;  
-  
+  flex-grow: 1;
 }
 
 .last_message_time {
   font-size: 13px;
   color: #BCBCC2;
-  margin-left: 106px;
- 
+  /* margin-left: 106px; */
 }
 
-@media (max-width: 768px) { 
+/* @media (max-width: 768px) { 
 .last_message_time {
 margin-left: 43px;
 }
 
-}
+} */
 
 .last_message {
   font-size: 16px;
@@ -262,6 +258,9 @@ white-space: nowrap;
   flex-direction: column;
    
 }
+/* .chats_window::-webkit-scrollbar{
+  background-color: transparent;
+} */
 
 .chat_window_placeholder {
   display: flex;
@@ -343,13 +342,27 @@ white-space: nowrap;
 }
 
 .chats_display {
+  margin-top: 5px;
   flex-grow: 1;
   padding: 20px;  
   display: flex;
   flex-direction: column;
   gap: 15px;
   max-height: 724px;
- 
+ /* max-height: ; */
+ overflow-y: scroll;
+}
+.chats_display::-webkit-scrollbar{
+  background-color: transparent;
+  width: 5px;
+  border-radius: 50px;
+}
+.chats_display::-webkit-scrollbar-thumb{
+  background-color: #ffffff;
+  
+}
+.chats_display::-webkit-scrollbar-width{
+  
 }
 
 .container-dot {
@@ -458,7 +471,8 @@ justify-content: flex-start;
   padding: 15px 20px;  
   background-color: transparent;
   gap: 10px;
-  margin-top: 150px;
+  /* margin-top: 150px; */
+  margin-top: 10px;
 }
 
 .inputtext_container input {
@@ -466,6 +480,7 @@ justify-content: flex-start;
   border: none;
   border-radius: 24px;
   padding: 24px 15px;
+  padding-right: 60px;
   font-size: 17px;
   resize: none;
   min-height: 40px;
@@ -590,3 +605,36 @@ border-radius: 24px;
       display: block; 
   }
 }
+
+.time-left {
+  font-size: 14px;
+  color: #f44336;
+  margin-left: 12px;
+  font-weight: 600;
+}
+
+
+.reconnect {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  background-color: #1d1f2b;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reconnect button {
+  background-color: #6b50ef;
+  color: #fff;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reconnect button:hover {
+  background-color: #5a41d5;
+}
+

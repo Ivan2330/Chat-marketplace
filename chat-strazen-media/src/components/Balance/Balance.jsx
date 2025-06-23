@@ -1,9 +1,10 @@
-// ОНОВЛЕНИЙ Balance.jsx з key виправленням, логами та повністю робочим handleConfirm
 import "./Balance.style.css";
 import React, { useState, useEffect } from "react";
 import elipseBalance from '../../assets/Ellipse-balance.png';
 import elipseForm from '../../assets/Ellipse-form-balance.png';
 import elipseDown from "../../assets/Ellipse-balance-down.png";
+import { API_URL } from "../../../config";
+
 
 const Balance = () => {
   const [plans, setPlans] = useState([]);
@@ -19,14 +20,14 @@ const Balance = () => {
       }
 
       try {
-        const userRes = await fetch("http://localhost:8000/users/me", {
+        const userRes = await fetch(`${API_URL}/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const userData = await userRes.json();
         console.log("Fetched user:", userData);
         setUser(userData);
 
-        const plansRes = await fetch("http://localhost:8000/plans/", {
+        const plansRes = await fetch(`${API_URL}/plans/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const plansData = await plansRes.json();
@@ -52,7 +53,7 @@ const Balance = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8000/payments/create-checkout-session/${selectedPlan}?user_id=${user._id}`,
+        `${API_URL}/payments/create-checkout-session/${selectedPlan}?user_id=${user._id}`,
         {
           method: "POST",
           headers: {

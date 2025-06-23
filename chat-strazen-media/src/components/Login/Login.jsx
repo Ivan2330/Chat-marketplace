@@ -4,6 +4,7 @@ import elipse from "../../assets/ellipse-login.png";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../../config";
 
 export default function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState("");
@@ -29,13 +30,20 @@ export default function Login({ onLoginSuccess }) {
           ? new URLSearchParams({ username: email, password })
           : JSON.stringify({ email, username: email, password });
 
-      const res = await fetch(`http://localhost:8000/auth/${endpoint}`, {
+      const fullURL = `${API_URL}/auth/${endpoint}`;
+      console.log("🔗 Fetching auth from:", fullURL);
+
+      const res = await fetch(fullURL, {
         method: "POST",
         headers,
         body,
       });
 
-      if (!res.ok) throw new Error("Auth failed");
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Auth failed (${res.status}): ${errText}`);
+      }
+
       const data = await res.json();
 
       const token = data.access_token ?? null;
@@ -43,7 +51,10 @@ export default function Login({ onLoginSuccess }) {
 
       localStorage.setItem("accessToken", token);
 
-      const userRes = await fetch("http://localhost:8000/users/me", {
+      const meURL = `${API_URL}/users/me`;
+      console.log("👤 Fetching user from:", meURL);
+
+      const userRes = await fetch(meURL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,9 +62,12 @@ export default function Login({ onLoginSuccess }) {
 
       const userData = await userRes.json();
       localStorage.setItem("userProfile", JSON.stringify(userData));
+      console.log("✅ User loaded:", userData);
+
       onLoginSuccess(userData);
       navigate("/");
     } catch (err) {
+      console.error("❌ Auth error:", err);
       setError(
         registerMode
           ? "Registration failed. Email may already be in use."

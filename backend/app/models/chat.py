@@ -32,6 +32,7 @@ class ChatOut(ChatBase):
     is_active: bool = True
     created_at: datetime
     last_message_at: Optional[datetime] = None
+    usernames: Optional[List[str]] = []
     
     class Config:
         allow_population_by_field_name = True

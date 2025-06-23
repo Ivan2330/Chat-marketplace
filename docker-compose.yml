@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    expose:
+      - 8000
+    depends_on:
+      - mongo
+      - redis
+
+  nginx:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: "https://starzen-psychics.com/api"
+        VITE_WS_URL: "wss://starzen-psychics.com"
+    container_name: nginx
+    restart: always
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certbot/conf:/etc/letsencrypt:ro
+      - ./nginx/certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    entrypoint: >
+      sh -c "while :; do
+            certbot renew --webroot -w /var/www/certbot --quiet --agree-tos
+            nginx -s reload 2>/dev/null || true
+            sleep 12h; done"
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: starzen_db
+    volumes:
+      - mongo_data:/data/db
+    expose:
+      - "27017"
+
+volumes:
+  mongo_data:
