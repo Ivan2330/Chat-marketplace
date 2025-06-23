@@ -5,7 +5,7 @@ from app.routes.auth import hash_password
 
 
 async def initialize_data():
-    await database.connect()
+    print("✓ MongoDB assumed connected")
 
     admin_email = "admin-strazen@gmail.com"
     if not await database.db["users"].find_one({"email": admin_email}):
@@ -24,7 +24,7 @@ async def initialize_data():
     # Створення експерта
     expert_email = "expert-strazen@gail.com"
     if not await database.db["users"].find_one({"email": expert_email}):
-        expert_id = await database.db["users"].insert_one({
+        await database.db["users"].insert_one({
             "email": expert_email,
             "username": "expert1",
             "password_hash": hash_password("strazen_expert23"),
@@ -70,7 +70,7 @@ async def initialize_data():
         else:
             print(f"ℹ️ Plan '{plan['name']}' already exists")
 
-    await database.disconnect()
+    print("✓ Initialization completed")
 
 
 if __name__ == "__main__":
