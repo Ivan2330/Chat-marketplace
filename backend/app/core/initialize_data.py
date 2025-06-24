@@ -16,17 +16,18 @@ async def initialize_data():
             "role": "admin",
             "created_at": datetime.utcnow(),
             "minutes_left": 0,
+            "is_active": True,
         })
         print("✅ Admin created")
     else:
         print("ℹ️ Admin already exists")
 
-    # Створення експерта
+    
     expert_email = "expert-strazen@gail.com"
     if not await database.db["users"].find_one({"email": expert_email}):
         await database.db["users"].insert_one({
             "email": expert_email,
-            "username": "expert1",
+            "username": "Sofia",
             "password_hash": hash_password("strazen_expert23"),
             "role": "expert",
             "created_at": datetime.utcnow(),
@@ -35,16 +36,16 @@ async def initialize_data():
             "reviews_count": 2550,
             "price_per_min": 3,
             "minutes_left": 0,
+            "is_active": True,
         })
         print("✅ Expert created")
     else:
         print("ℹ️ Expert already exists")
 
-    # Створення планів
     plans = [
         {
             "name": "Pro",
-            "price": 70,
+            "price_usd": 70,
             "minutes": 30,
             "bonus_minutes": 10,
             "total_minutes": 40,
@@ -53,7 +54,7 @@ async def initialize_data():
         },
         {
             "name": "Starter",
-            "price": 40,
+            "price_usd": 40,
             "minutes": 15,
             "bonus_minutes": 5,
             "total_minutes": 20,
