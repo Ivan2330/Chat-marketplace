@@ -18,51 +18,50 @@ export default function Login({ onLoginSuccess }) {
     setError("");
 
     try {
-      const endpoint = registerMode ? "register" : "login";
+      // якщо реєстрація — створити акаунт, а потім увійти
+      if (registerMode) {
+        const registerRes = await fetch(`${API_URL}/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, username: email, password }),
+        });
 
-      const headers =
-        endpoint === "login"
-          ? { "Content-Type": "application/x-www-form-urlencoded" }
-          : { "Content-Type": "application/json" };
-
-      const body =
-        endpoint === "login"
-          ? new URLSearchParams({ username: email, password })
-          : JSON.stringify({ email, username: email, password });
-
-      const fullURL = `${API_URL}/auth/${endpoint}`;
-      console.log("🔗 Fetching auth from:", fullURL);
-
-      const res = await fetch(fullURL, {
-        method: "POST",
-        headers,
-        body,
-      });
-
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`Auth failed (${res.status}): ${errText}`);
+        if (!registerRes.ok) {
+          const errText = await registerRes.text();
+          throw new Error(`Registration failed: ${errText}`);
+        }
       }
 
-      const data = await res.json();
+      // незалежно від режиму — логін
+      const loginRes = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ username: email, password }),
+      });
 
-      const token = data.access_token ?? null;
+      if (!loginRes.ok) {
+        const errText = await loginRes.text();
+        throw new Error(`Login failed: ${errText}`);
+      }
+
+      const loginData = await loginRes.json();
+      const token = loginData.access_token;
       if (!token) throw new Error("Token not found");
 
       localStorage.setItem("accessToken", token);
 
-      const meURL = `${API_URL}/users/me`;
-      console.log("👤 Fetching user from:", meURL);
-
-      const userRes = await fetch(meURL, {
+      const userRes = await fetch(`${API_URL}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
+      if (!userRes.ok) {
+        throw new Error("Failed to fetch user profile");
+      }
+
       const userData = await userRes.json();
       localStorage.setItem("userProfile", JSON.stringify(userData));
-      console.log("✅ User loaded:", userData);
 
       onLoginSuccess(userData);
       navigate("/");
@@ -86,7 +85,9 @@ export default function Login({ onLoginSuccess }) {
           </div>
           <h1 className="heading">Welcome to Starzen</h1>
           <p className="text-login">
-            {registerMode ? "Create an account to start your journey" : "Sign in to connect with expert specialists"}
+            {registerMode
+              ? "Create an account to start your journey"
+              : "Sign in to connect with expert specialists"}
           </p>
 
           <form onSubmit={handleSubmit} className="form-login">
@@ -115,7 +116,9 @@ export default function Login({ onLoginSuccess }) {
             className="btn-toggle-mode"
             onClick={() => setRegisterMode((prev) => !prev)}
           >
-            {registerMode ? "Already have an account? Login" : "Don't have an account? Register"}
+            {registerMode
+              ? "Already have an account? Login"
+              : "Don't have an account? Register"}
           </button>
 
           <p className="text-login">
