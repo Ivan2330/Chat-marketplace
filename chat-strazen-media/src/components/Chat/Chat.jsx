@@ -181,7 +181,11 @@ const Chat = () => {
                 >
                   <div className="conversation_info">
                     <div className="container-icon-text">
-                      <img src={iconExpert} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+                      <img
+                        src={iconExpert}
+                        alt="avatar"
+                        className="img-expert"
+                      />
                       <span className="expert_name" style={{ marginLeft: 12 }}>{other}</span>
                       <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
                     </div>

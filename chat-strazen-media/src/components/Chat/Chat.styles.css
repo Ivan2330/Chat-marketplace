@@ -109,7 +109,7 @@ margin-bottom: 4px;
   display: flex;  
   align-items: center;   
   padding: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   background-color: #2D303C;
   border-radius: 8px;
   cursor: pointer;
@@ -638,3 +638,14 @@ border-radius: 24px;
   background-color: #5a41d5;
 }
 
+.chat-layout::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(107, 80, 239, 0.8) 0%, transparent 70%);
+  z-index: 2;
+}
