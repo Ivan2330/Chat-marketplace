@@ -2,8 +2,8 @@
 .chat-app-container {
   padding: 24px 165px;
   position: relative;
-  /* додати */
-  z-index: 1;
+  z-index: 0;
+  /* ставимо нижче */
   overflow: hidden;
 }
 
@@ -16,7 +16,8 @@
   width: 120%;
   height: 200px;
   background: radial-gradient(ellipse at top center, rgba(107, 80, 239, 0.35), transparent 80%);
-  z-index: 0;
+  z-index: -1;
+  /* <-- ось це ключове: нижче за весь контент */
   pointer-events: none;
   filter: blur(48px);
 }
