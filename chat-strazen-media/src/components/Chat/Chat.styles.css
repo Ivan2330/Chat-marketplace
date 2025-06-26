@@ -54,13 +54,26 @@ white-space: nowrap;
 
 /* те що поміняв Кіріч*/
 .chat-layout {
-  display: flex;  
+  display: flex;
+  position: relative;
   height: 75vh; 
   /* overflow: scroll; */
   border-radius: 10px;/*під питанням  */
   
 }
 
+.chat-layout::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 450px;
+  /* ширина chat_list_panel */
+  width: 30px;
+  height: 100%;
+  background: radial-gradient(ellipse at left center, rgba(107, 80, 239, 0.4), transparent 80%);
+  z-index: 1;
+  pointer-events: none;
+}
 
 .chat_list_panel {
   flex: 0 0 450px;
@@ -108,10 +121,10 @@ margin-bottom: 4px;
 .conversation_item {
   display: flex;  
   align-items: center;   
-  padding: 24px;
+  padding: 13px;
   margin-bottom: 16px;
   background-color: #2D303C;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -352,17 +365,19 @@ white-space: nowrap;
  /* max-height: ; */
  overflow-y: scroll;
 }
-.chats_display::-webkit-scrollbar{
-  background-color: transparent;
-  width: 5px;
-  border-radius: 50px;
+.chats_display::-webkit-scrollbar {
+  width: 6px;
 }
-.chats_display::-webkit-scrollbar-thumb{
-  background-color: #ffffff;
-  
+
+.chats_display::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 50px 0;
+  /* зробити коротшим */
 }
-.chats_display::-webkit-scrollbar-width{
-  
+
+.chats_display::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
 }
 
 .container-dot {
@@ -638,14 +653,3 @@ border-radius: 24px;
   background-color: #5a41d5;
 }
 
-.chat-layout::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 40px;
-  background: radial-gradient(circle, rgba(107, 80, 239, 0.8) 0%, transparent 70%);
-  z-index: 2;
-}
