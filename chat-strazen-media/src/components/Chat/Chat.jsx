@@ -161,89 +161,90 @@ const Chat = () => {
   }, [messages]);
 
   return (
-    <div className="chat-app-container">
-      <div className="chat-layout">
-        <div className={`chat_list_panel ${!showChatList ? 'hidden-on-mobile' : ''}`}>
-          {allChats
-            .sort((a, b) => new Date(b.last_message_at || 0) - new Date(a.last_message_at || 0))
-            .map(chat => {
-              const other = chat.usernames?.find(name => name !== user?.username);
-              return (
-                <div
-                  key={chat._id}
-                  className={`conversation_item ${chat._id === chatId ? 'active' : ''}`}
-                  onClick={() => {
-                    navigate(`/chat/${chat._id}`);
-                    setShowChatList(false);
-                  }}
-                >
-                  <div className="conversation_info">
-                    <div className="container-icon-text">
-                      <img src={iconExpert} alt="avatar" className="img-expert" />
-                      <span className="expert_name" style={{ marginLeft: 12 }}>{other}</span>
-                      <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
+    <>
+      <div className="chat-page-glow"></div> {/* Тінь під загальним хедером */}
+      <div className="chat-app-container">
+        <div className="chat-layout">
+          <div className={`chat_list_panel ${!showChatList ? 'hidden-on-mobile' : ''}`}>
+            {allChats
+              .sort((a, b) => new Date(b.last_message_at || 0) - new Date(a.last_message_at || 0))
+              .map(chat => {
+                const other = chat.usernames?.find(name => name !== user?.username);
+                return (
+                  <div
+                    key={chat._id}
+                    className={`conversation_item ${chat._id === chatId ? 'active' : ''}`}
+                    onClick={() => {
+                      navigate(`/chat/${chat._id}`);
+                      setShowChatList(false);
+                    }}
+                  >
+                    <div className="conversation_info">
+                      <div className="container-icon-text">
+                        <img src={iconExpert} alt="avatar" className="img-expert" />
+                        <span className="expert_name" style={{ marginLeft: 12 }}>{other}</span>
+                        <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
+                      </div>
                     </div>
                   </div>
+                );
+              })}
+          </div>
+
+          <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`}>
+            <div className="chat_window_header">
+              <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
+              <div className="header_info">
+                <h3 className="expert-name">Chat</h3>
+                <div className="container-dot">
+                  <span className="status_dot online"></span>
+                  <span className="status_text online">Online</span>
                 </div>
-              );
-            })}
-        </div>
-
-        <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`}>
-          <div className="chat-glow-background"></div>
-
-          <div className="chat_window_header">
-            <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
-            <div className="header_info">
-              <h3 className="expert-name">Chat</h3>
-              <div className="container-dot">
-                <span className="status_dot online"></span>
-                <span className="status_text online">Online</span>
               </div>
+              {role === "client" && timeLeft !== null && (
+                <span className="time-left">⏳ {timeLeft} min</span>
+              )}
+              <img src={smallMonn} alt="smallMonn" style={{ width: 36, height: 36 }} />
             </div>
-            {role === "client" && timeLeft !== null && (
-              <span className="time-left">⏳ {timeLeft} min</span>
+
+            <div className="chats_display">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`message_bubble_wrapper ${msg.sender_id === userId ? 'my_message' : 'their_message'}`}>
+                  <div className="message_content">
+                    <p className="message_text">{msg.text}</p>
+                    <span className="message_time">{formatTimestamp(msg.timestamp)}</span>
+                  </div>
+                </div>
+              ))}
+              <div ref={bottomRef}></div>
+            </div>
+
+            <div className="inputtext_container">
+              <span className="container-star-chat">
+                <img src={iconStar} alt="iconStar" style={{ width: 24, height: 24 }} />
+              </span>
+              <input
+                type="text"
+                placeholder="Type your question..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') sendMessage(); }}
+                disabled={isBlocked}
+              />
+              <button onClick={sendMessage} disabled={isBlocked}>
+                <img src={buttonSend} alt="buttonSend" style={{ width: 24, height: 24 }} />
+              </button>
+            </div>
+
+            {wsClosed && role === "client" && timeLeft === 0 && (
+              <div className="reconnect">
+                <button onClick={() => connectWebSocket(chatId, localStorage.getItem("accessToken"), role)}>🔁 Reconnect</button>
+              </div>
             )}
-            <img src={smallMonn} alt="smallMonn" style={{ width: 36, height: 36 }} />
           </div>
-
-          <div className="chats_display">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`message_bubble_wrapper ${msg.sender_id === userId ? 'my_message' : 'their_message'}`}>
-                <div className="message_content">
-                  <p className="message_text">{msg.text}</p>
-                  <span className="message_time">{formatTimestamp(msg.timestamp)}</span>
-                </div>
-              </div>
-            ))}
-            <div ref={bottomRef}></div>
-          </div>
-
-          <div className="inputtext_container">
-            <span className="container-star-chat">
-              <img src={iconStar} alt="iconStar" style={{ width: 24, height: 24 }} />
-            </span>
-            <input
-              type="text"
-              placeholder="Type your question..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') sendMessage(); }}
-              disabled={isBlocked}
-            />
-            <button onClick={sendMessage} disabled={isBlocked}>
-              <img src={buttonSend} alt="buttonSend" style={{ width: 24, height: 24 }} />
-            </button>
-          </div>
-
-          {wsClosed && role === "client" && timeLeft === 0 && (
-            <div className="reconnect">
-              <button onClick={() => connectWebSocket(chatId, localStorage.getItem("accessToken"), role)}>🔁 Reconnect</button>
-            </div>
-          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

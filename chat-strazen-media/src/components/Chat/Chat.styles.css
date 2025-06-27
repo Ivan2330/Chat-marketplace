@@ -13,6 +13,17 @@
   pointer-events: none;
 }
 
+.chat-page-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 220px;
+  background: radial-gradient(ellipse at center top, rgba(107, 80, 239, 0.5), transparent 75%);
+  z-index: 0;
+  filter: blur(60px);
+  pointer-events: none;
+}
 
 .chat-app-container {
   padding: 24px 165px;
