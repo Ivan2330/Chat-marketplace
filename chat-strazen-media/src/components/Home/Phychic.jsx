@@ -8,12 +8,98 @@ import eyeIcon from "../../assets/eye-icon.png";
 import iconSleep from "../../assets/icon-sleep.png";
 import iconMingcute from "../../assets/mingcute-icon.png";
 import iconCards from "../../assets/icon-cards.png";
-import iconWork from "../../assets/work-icon.png";
+import iconWork from "../../assets/icon-work.png";
 import eclisse from "../../assets/eclipse 1x.png";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../../config";
+
+function LeaveReviewForm({ expertId, onReviewSubmit }) {
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const token = localStorage.getItem("accessToken");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+
+    setSubmitting(true);
+    try {
+      const res = await fetch(`${API_URL}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          expert_id: expertId,
+          rating,
+          comment,
+        }),
+      });
+
+      if (!res.ok) {
+        console.error("Failed to submit review");
+        return;
+      }
+
+      const newReview = await res.json();
+      onReviewSubmit(newReview);
+      setRating(5);
+      setComment("");
+    } catch (err) {
+      console.error("Review submission error:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="container-client" style={{ marginTop: "32px" }}>
+      <h3 style={{ color: "#fff", fontSize: "20px", marginBottom: "16px" }}>
+        Leave a Review
+      </h3>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div className="container-star">
+          {[...Array(5)].map((_, i) => (
+            <span
+              key={i}
+              style={{ cursor: "pointer", fontSize: "20px", color: i < rating ? "gold" : "gray" }}
+              onClick={() => setRating(i + 1)}
+            >
+              {i < rating ? "★" : "☆"}
+            </span>
+          ))}
+        </div>
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          rows={4}
+          placeholder="Write your feedback..."
+          required
+          style={{ padding: "12px", borderRadius: "8px", resize: "none" }}
+        />
+        <button
+          type="submit"
+          disabled={submitting}
+          style={{
+            backgroundColor: "#6b50ef",
+            color: "#fff",
+            padding: "10px 16px",
+            borderRadius: "8px",
+            border: "none",
+            cursor: "pointer",
+            alignSelf: "flex-start",
+          }}
+        >
+          {submitting ? "Submitting..." : "Submit Review"}
+        </button>
+      </form>
+    </div>
+  );
+}
 
 export default function Psychic() {
   const [expert, setExpert] = useState(null);
@@ -108,6 +194,7 @@ export default function Psychic() {
           </div>
         </div>
       )}
+
       <div className="container-specialties">
         <p className="text-txt">Specialties</p>
         <ul className="specialties-toogle">
@@ -155,6 +242,13 @@ export default function Psychic() {
             </div>
           ))}
         </div>
+      )}
+
+      {token && expert && (
+        <LeaveReviewForm
+          expertId={expert._id}
+          onReviewSubmit={(r) => setReviews([r, ...reviews])}
+        />
       )}
     </section>
   );
