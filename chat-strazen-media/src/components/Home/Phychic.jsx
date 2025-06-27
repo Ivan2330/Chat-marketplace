@@ -8,7 +8,7 @@ import eyeIcon from "../../assets/eye-icon.png";
 import iconSleep from "../../assets/icon-sleep.png";
 import iconMingcute from "../../assets/mingcute-icon.png";
 import iconCards from "../../assets/icon-cards.png";
-import iconWork from "../../assets/work-icon.png";
+import iconWork from "../../assets/icon-work.png";
 import eclisse from "../../assets/eclipse 1x.png";
 
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,9 @@ function LeaveReviewForm({ expertId, onReviewSubmit }) {
 
     setSubmitting(true);
     try {
-      const res = await fetch(`${API_URL}/users/reviews`, {
+      const user = JSON.parse(localStorage.getItem("userProfile"));
+
+      const res = await fetch(`${API_URL}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,8 +37,9 @@ function LeaveReviewForm({ expertId, onReviewSubmit }) {
         },
         body: JSON.stringify({
           expert_id: expertId,
-          rating,
-          comment,
+          text: comment,
+          author: user?.username || "Anonymous",
+          stars_count: rating,
         }),
       });
 
@@ -79,7 +82,17 @@ function LeaveReviewForm({ expertId, onReviewSubmit }) {
           rows={4}
           placeholder="Write your feedback..."
           required
-          style={{ padding: "12px", borderRadius: "8px", resize: "none" }}
+          style={{
+            backgroundColor: "#1a1a1f",   
+            color: "#fff",                
+            border: "1px solid #ccc",     
+            borderRadius: "10px",
+            padding: "12px",
+            resize: "none",
+            fontFamily: "inherit",        
+            width: "100%",
+            boxSizing: "border-box"
+          }}
         />
         <button
           type="submit"
@@ -116,7 +129,7 @@ export default function Psychic() {
 
   useEffect(() => {
     if (expert?._id) {
-      fetch(`${API_URL}/users/reviews/by_expert/${expert._id}`)
+      fetch(`${API_URL}/reviews/by_expert/${expert._id}`)
         .then((res) => res.json())
         .then((data) => setReviews(data))
         .catch((err) => console.error("Failed to load reviews", err));
@@ -227,10 +240,10 @@ export default function Psychic() {
             <div className="client-item" key={idx}>
               <div className="container-client-name">
                 <div className="container">
-                  <p className="client-name">{review.username || "Anonymous"}</p>
+                  <p className="client-name">{review.author || "Anonymous"}</p>
                   <div className="container-star">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i}>{i < review.rating ? "★" : "☆"}</span>
+                      <span key={i}>{i < review.stars_count ? "★" : "☆"}</span>
                     ))}
                   </div>
                 </div>
@@ -238,7 +251,7 @@ export default function Psychic() {
                   {new Date(review.created_at).toLocaleDateString()}
                 </p>
               </div>
-              <p className="client-comment">{review.comment}</p>
+              <p className="client-comment">{review.text}</p>
             </div>
           ))}
         </div>
