@@ -8,7 +8,7 @@ import eyeIcon from "../../assets/eye-icon.png";
 import iconSleep from "../../assets/icon-sleep.png";
 import iconMingcute from "../../assets/mingcute-icon.png";
 import iconCards from "../../assets/icon-cards.png";
-import iconWork from "../../assets/icon-work.png";
+import iconWork from "../../assets/work-icon.png";
 import eclisse from "../../assets/eclipse 1x.png";
 
 import { useNavigate } from "react-router-dom";
