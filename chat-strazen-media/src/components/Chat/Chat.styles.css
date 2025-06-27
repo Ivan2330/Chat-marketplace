@@ -7,7 +7,7 @@
   height: 300px;
   /* більша висота */
   background: radial-gradient(ellipse at top center, rgba(107, 80, 239, 0.5), transparent 85%);
-  filter: blur(60px);
+  filter: blur(80px);
   /* більш мʼяке світіння */
   z-index: -1;
   pointer-events: none;
@@ -98,7 +98,7 @@ white-space: nowrap;
   flex: 0 0 450px;
   position: relative;
   background-color: transparent;
-  border-right: 1px solid #20222a;
+  border-right: 1px solid #606060;
   display: flex;
   flex-direction: column;
   padding: 24px 24px 24px 0px;
@@ -312,7 +312,7 @@ white-space: nowrap;
   align-items: center;
   justify-content: space-between;
   padding: 15px 20px;
-  background-color: transparent; 
+  background-color: #0c0d13; 
   color: #e0e0e0;
   position: relative;
   border: 1px solid #20222a;
