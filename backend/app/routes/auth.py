@@ -31,17 +31,35 @@ def create_access_token(data: dict, expires_minutes: int = settings.access_token
 async def get_user_by_email(email: str):
     return await database.db["users"].find_one({"email": email})
 
-@router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
-async def register(user_in: UserCreate):
-    if await get_user_by_email(user_in.email):
-        raise HTTPException(status_code=400, detail="User already exists")
+# @router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
+# async def register(user_in: UserCreate):
+#     if await get_user_by_email(user_in.email):
+#         raise HTTPException(status_code=400, detail="User already exists")
 
-    user_doc = user_in.dict(exclude={"password"})
-    user_doc["password_hash"] = hash_password(user_in.password)
+#     user_doc = user_in.dict(exclude={"password"})
+#     user_doc["password_hash"] = hash_password(user_in.password)
+#     user_doc["created_at"] = datetime.utcnow()
+
+#     result = await database.db["users"].insert_one(user_doc)
+#     user_doc["_id"] = str(result.inserted_id)  # <- ключова зміна
+
+#     return jsonable_encoder(UserOut(**user_doc))
+
+@router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
+async def register_user(user: UserCreate):
+    existing = await database.db["users"].find_one({"$or": [
+        {"email": user.email},
+        {"username": user.username}
+    ]})
+    if existing:
+        raise HTTPException(status_code=400, detail="User with given email or username already exists")
+
+    user_doc = user.dict(exclude={"password"})
+    user_doc["password_hash"] = hash_password(user.password)
     user_doc["created_at"] = datetime.utcnow()
 
     result = await database.db["users"].insert_one(user_doc)
-    user_doc["_id"] = str(result.inserted_id)  # <- ключова зміна
+    user_doc["_id"] = str(result.inserted_id)
 
     return jsonable_encoder(UserOut(**user_doc))
 

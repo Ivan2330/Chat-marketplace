@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from typing import List
 from bson import ObjectId
 from fastapi.encoders import jsonable_encoder
 from datetime import datetime
@@ -10,7 +11,8 @@ from app.models.user import (
     UserOut, UserUpdate, UserCreate,
     UserRatingUpdate, UserReviewsCountUpdate,
     UserProfileImageUpdate, UserMinutesLeftUpdate,
-    UserSubscriptionStatusUpdate, UserPricePerMinUpdate
+    UserSubscriptionStatusUpdate, UserPricePerMinUpdate,
+    ReviewCreate, ReviewOut
 )
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -155,4 +157,23 @@ async def update_price_per_min(user_id: str, data: UserPricePerMinUpdate, curren
     return UserOut(**user)
 
 
+@router.post("/", response_model=ReviewOut, status_code=201)
+async def create_review(
+    review: ReviewCreate,
+    current_user: UserOut = Depends(get_current_active_user)
+):
+    review_doc = review.dict()
+    review_doc["created_at"] = datetime.utcnow()
+    result = await database.db["reviews"].insert_one(review_doc)
+    review_doc["_id"] = str(result.inserted_id)
+    return ReviewOut(**review_doc)
+
+
+@router.get("/by_expert/{expert_id}", response_model=List[ReviewOut])
+async def get_reviews_by_expert(expert_id: str):
+    reviews_cursor = database.db["reviews"].find({"expert_id": expert_id})
+    reviews = await reviews_cursor.to_list(length=100)
+    for review in reviews:
+        review["_id"] = str(review["_id"])
+    return [ReviewOut(**review) for review in reviews]
 

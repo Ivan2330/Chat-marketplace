@@ -82,3 +82,21 @@ class UserSubscriptionStatusUpdate(BaseModel):
 
 class UserPricePerMinUpdate(BaseModel):
     price_per_min: float
+
+
+class ReviewCreate(BaseModel):
+    expert_id: str
+    text: str
+    author: str
+    stars_count: int = Field(..., ge=1, le=5)
+
+class ReviewOut(ReviewCreate):
+    id: str = Field(..., alias="_id")
+    created_at: datetime
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {
+            PyObjectId: str
+        }

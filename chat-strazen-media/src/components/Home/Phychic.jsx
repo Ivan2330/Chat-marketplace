@@ -11,21 +11,31 @@ import iconCards from "../../assets/icon-cards.png";
 import iconWork from "../../assets/work-icon.png";
 import eclisse from "../../assets/eclipse 1x.png";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../../config";
 
 export default function Psychic() {
   const [expert, setExpert] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${API_URL}/users/expert`)
-      .then(res => res.json())
-      .then(data => setExpert(data))
-      .catch(err => console.error("Failed to load expert info", err));
+      .then((res) => res.json())
+      .then((data) => setExpert(data))
+      .catch((err) => console.error("Failed to load expert info", err));
   }, []);
+
+  useEffect(() => {
+    if (expert?._id) {
+      fetch(`${API_URL}/reviews/by_expert/${expert._id}`)
+        .then((res) => res.json())
+        .then((data) => setReviews(data))
+        .catch((err) => console.error("Failed to load reviews", err));
+    }
+  }, [expert]);
 
   const handleMoveToChat = async () => {
     if (!token) return navigate("/login");
@@ -123,6 +133,29 @@ export default function Psychic() {
           </li>
         </ul>
       </div>
+
+      {reviews.length > 0 && (
+        <div className="container-client">
+          {reviews.map((review, idx) => (
+            <div className="client-item" key={idx}>
+              <div className="container-client-name">
+                <div className="container">
+                  <p className="client-name">{review.username || "Anonymous"}</p>
+                  <div className="container-star">
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i}>{i < review.rating ? "★" : "☆"}</span>
+                    ))}
+                  </div>
+                </div>
+                <p className="client-date">
+                  {new Date(review.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              <p className="client-comment">{review.comment}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

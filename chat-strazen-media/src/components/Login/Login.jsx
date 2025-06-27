@@ -8,6 +8,7 @@ import { API_URL } from "../../../config";
 
 export default function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [registerMode, setRegisterMode] = useState(false);
   const [error, setError] = useState("");
@@ -18,12 +19,12 @@ export default function Login({ onLoginSuccess }) {
     setError("");
 
     try {
-      // якщо реєстрація — створити акаунт, а потім увійти
+      // якщо реєстрація — створити акаунт
       if (registerMode) {
         const registerRes = await fetch(`${API_URL}/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, username: email, password }),
+          body: JSON.stringify({ email, username, password }),
         });
 
         if (!registerRes.ok) {
@@ -32,7 +33,7 @@ export default function Login({ onLoginSuccess }) {
         }
       }
 
-      // незалежно від режиму — логін
+      // логін у будь-якому випадку
       const loginRes = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -69,7 +70,7 @@ export default function Login({ onLoginSuccess }) {
       console.error("❌ Auth error:", err);
       setError(
         registerMode
-          ? "Registration failed. Email may already be in use."
+          ? "Registration failed. Email or username may already be in use."
           : "Login failed. Please check your credentials."
       );
     }
@@ -91,6 +92,16 @@ export default function Login({ onLoginSuccess }) {
           </p>
 
           <form onSubmit={handleSubmit} className="form-login">
+            {registerMode && (
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="username"
+                required
+              />
+            )}
             <input
               type="email"
               placeholder="Email"
