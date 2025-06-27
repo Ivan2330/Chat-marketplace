@@ -19,8 +19,6 @@ const formatTimestamp = (timestamp) => {
   return `${formattedDate}, ${time}`;
 };
 
-
-
 const Chat = () => {
   const { chatId } = useParams();
   const navigate = useNavigate();
@@ -163,8 +161,6 @@ const Chat = () => {
   }, [messages]);
 
   return (
-   <>
-    <div className="chat-glow-background"></div> {/* <-- фонова тінь */}
     <div className="chat-app-container">
       <div className="chat-layout">
         <div className={`chat_list_panel ${!showChatList ? 'hidden-on-mobile' : ''}`}>
@@ -183,11 +179,7 @@ const Chat = () => {
                 >
                   <div className="conversation_info">
                     <div className="container-icon-text">
-                      <img
-                        src={iconExpert}
-                        alt="avatar"
-                        className="img-expert"
-                      />
+                      <img src={iconExpert} alt="avatar" className="img-expert" />
                       <span className="expert_name" style={{ marginLeft: 12 }}>{other}</span>
                       <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
                     </div>
@@ -198,6 +190,8 @@ const Chat = () => {
         </div>
 
         <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`}>
+          <div className="chat-glow-background"></div>
+
           <div className="chat_window_header">
             <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
             <div className="header_info">
@@ -227,7 +221,7 @@ const Chat = () => {
 
           <div className="inputtext_container">
             <span className="container-star-chat">
-              <img src={iconStar} alt="iconStar" style={{width: 24, height: 24}}/>
+              <img src={iconStar} alt="iconStar" style={{ width: 24, height: 24 }} />
             </span>
             <input
               type="text"
@@ -238,7 +232,7 @@ const Chat = () => {
               disabled={isBlocked}
             />
             <button onClick={sendMessage} disabled={isBlocked}>
-              <img src={buttonSend} alt="buttonSend" style={{width: 24, height: 24}}/>
+              <img src={buttonSend} alt="buttonSend" style={{ width: 24, height: 24 }} />
             </button>
           </div>
 
@@ -249,8 +243,7 @@ const Chat = () => {
           )}
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 
