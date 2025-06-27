@@ -162,7 +162,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="chat-page-glow"></div> {/* Тінь під загальним хедером */}
+      <div className="chat-page-glow"></div>
       <div className="chat-app-container">
         <div className="chat-layout">
           <div className={`chat_list_panel ${!showChatList ? 'hidden-on-mobile' : ''}`}>
@@ -191,8 +191,8 @@ const Chat = () => {
               })}
           </div>
 
-          <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`}>
-            <div className="chat_window_header">
+          <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`} style={{ position: 'relative', zIndex: 2 }}>
+            <div className="chat_window_header" style={{ position: 'relative', zIndex: 3 }}>
               <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
               <div className="header_info">
                 <h3 className="expert-name">Chat</h3>
