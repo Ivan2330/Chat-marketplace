@@ -157,7 +157,7 @@ async def update_price_per_min(user_id: str, data: UserPricePerMinUpdate, curren
     return UserOut(**user)
 
 
-@router.post("/", response_model=ReviewOut, status_code=201)
+@router.post("/reviews", response_model=ReviewOut, status_code=201)
 async def create_review(
     review: ReviewCreate,
     current_user: UserOut = Depends(get_current_active_user)
@@ -169,7 +169,7 @@ async def create_review(
     return ReviewOut(**review_doc)
 
 
-@router.get("/by_expert/{expert_id}", response_model=List[ReviewOut])
+@router.get("/reviews/by_expert/{expert_id}", response_model=List[ReviewOut])
 async def get_reviews_by_expert(expert_id: str):
     reviews_cursor = database.db["reviews"].find({"expert_id": expert_id})
     reviews = await reviews_cursor.to_list(length=100)
