@@ -29,7 +29,7 @@ function LeaveReviewForm({ expertId, onReviewSubmit }) {
     try {
       const user = JSON.parse(localStorage.getItem("userProfile"));
 
-      const res = await fetch(`${API_URL}/reviews`, {
+      const res = await fetch(`${API_URL}/users/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ export default function Psychic() {
 
   useEffect(() => {
     if (expert?._id) {
-      fetch(`${API_URL}/reviews/by_expert/${expert._id}`)
+      fetch(`${API_URL}/users/reviews/by_expert/${expert._id}`)
         .then((res) => res.json())
         .then((data) => setReviews(data))
         .catch((err) => console.error("Failed to load reviews", err));
