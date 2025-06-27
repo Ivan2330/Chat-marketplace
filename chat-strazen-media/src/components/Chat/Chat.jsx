@@ -163,6 +163,8 @@ const Chat = () => {
   }, [messages]);
 
   return (
+   <>
+    <div className="chat-glow-background"></div> {/* <-- фонова тінь */}
     <div className="chat-app-container">
       <div className="chat-layout">
         <div className={`chat_list_panel ${!showChatList ? 'hidden-on-mobile' : ''}`}>
@@ -247,7 +249,8 @@ const Chat = () => {
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
