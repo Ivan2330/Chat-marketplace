@@ -1,5 +1,6 @@
 body {
-font-family: Urbanist, sans-serif;
+  font-family: Urbanist, sans-serif;
+  position: relative;
   background-color: #0C0D12;
   color: #ffffff;
   margin: 0; 
