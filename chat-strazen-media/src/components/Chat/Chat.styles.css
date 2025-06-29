@@ -76,7 +76,7 @@ white-space: nowrap;
 .chat-layout {
   display: flex;
   position: relative;
-  height: 75vh; 
+  height: 80vh; 
   /* overflow: scroll; */
   border-radius: 10px;/*під питанням  */
   z-index: 1;
@@ -92,7 +92,7 @@ white-space: nowrap;
   padding: 24px 24px 24px 0px;
   overflow-y: auto;
   height: 100%;
-  max-height: 75vh;
+  max-height: 80vh;
   z-index: 1;
 }
 @media (max-width: 768px) {
