@@ -236,6 +236,7 @@ export default function Psychic() {
 
       {reviews.length > 0 && (
         <div className="container-client">
+        <h4 className="client-reviews">Clients Reviews</h4>
           {reviews.map((review, idx) => (
             <div className="client-item" key={idx}>
               <div className="container-client-name">

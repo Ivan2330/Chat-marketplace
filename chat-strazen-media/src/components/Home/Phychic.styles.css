@@ -59,6 +59,7 @@
   padding: 16px 23px;
   border-radius: 16px;
   right: 0;
+  font-family: Urbanist, sans-serif;
   font-size: 16px;
   gap: 2px;
   border: none;
@@ -96,6 +97,7 @@ height: 20px;
 
 
 .icon-green {
+  display: none;
   position: absolute;
   bottom: 20%;
   right: 0;
@@ -286,7 +288,11 @@ height: 20px;
   background-color: rgba(255, 255, 255, 0.05);
   margin-top: 24px;
 }
-
+.client-reviews{
+  font-weight: 700;
+  font-size: 24px;
+  font-family: Urbanist, sans-serif;
+}
 .client-item {
   padding-top: 24px;
   padding-bottom: 24px;
@@ -329,3 +335,7 @@ height: 20px;
 .container-star {
   display: flex;
 }
+.container-star span{
+  color: #FFCB3D;
+}
+
