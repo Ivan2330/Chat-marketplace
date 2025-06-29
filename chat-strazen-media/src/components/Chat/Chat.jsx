@@ -144,7 +144,7 @@ const Chat = () => {
       stopTimer();
       setMessages([]);
     };
-  }, [chatId]);
+  }, [chatId]); 
 
   useEffect(() => {
     const handleUnload = () => stopTimer();
@@ -247,5 +247,5 @@ const Chat = () => {
     </>
   );
 };
-
+// com
 export default Chat;
