@@ -13,8 +13,10 @@
 
 .container-login-all { 
  position: relative;
- 
-  
+ left:50%;
+ transform: translateX(-50%);
+ /* width: 1094px; */
+ gap: 24px;
 }
 
 
@@ -22,7 +24,9 @@
 .container-login-all { 
   display: flex;
   flex-direction: column-reverse;
+  align-items: center;
 }
+
 }
 
 .heading {
@@ -38,8 +42,8 @@
   background-color: #14161f; 
   text-align: center;
   border-radius: 24px;
-  margin-bottom: 24px;
   max-width: 535px;
+  margin: 0 auto;
 }
 
 .elipse-login {
@@ -64,6 +68,9 @@ img {
 
 
 @media (min-width: 1200px) {
+  .container-login-all{
+    width: 1094px;
+  }
   .welcome {
     position: absolute;
     top: 0;
@@ -72,6 +79,12 @@ img {
     background-color: #14161f;   
     text-align: center;
     border-radius: 24px;
+    height: 100%;
+  }
+  
+  .frame{
+    position: static;
+    transform: none;
   }
 }
 
@@ -106,6 +119,10 @@ margin-right: 12px;
   background-size: cover;
   background-position: left;
   text-align: center;
+
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 @media screen and (max-width: 479px) {
