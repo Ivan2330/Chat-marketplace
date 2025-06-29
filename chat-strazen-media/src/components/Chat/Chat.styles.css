@@ -103,7 +103,7 @@ white-space: nowrap;
 }
 
 .chat_list_panel::-webkit-scrollbar {
-  width: 6px;
+  width: 1px;
 }
 
 .chat_list_panel::-webkit-scrollbar-track {
