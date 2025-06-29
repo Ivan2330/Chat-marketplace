@@ -24,7 +24,7 @@
 .container-login-all { 
   display: flex;
   flex-direction: column-reverse;
-  align-items: center;
+  /* align-items: center; */
 }
 
 }
