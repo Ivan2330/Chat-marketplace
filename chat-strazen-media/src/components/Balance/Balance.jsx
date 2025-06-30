@@ -104,14 +104,15 @@ const Balance = () => {
             </button>
           ))}
         </div>
-        {selectedPlan && (
-          <button className="return-accaunt" onClick={handleConfirm}>
-            Confirm and Pay
-          </button>
-        )}
         <p className="text-small-balance-down">
           You can hang up any time. Unused funds will be <br /> returned to your account.
         </p>
+        <button
+          className="return-accaunt"
+          onClick={handleConfirm}
+        >
+          Next
+        </button>
         <img className="elipse-down" src={elipseDown} alt="elipseDown" />
       </div>
     </section>

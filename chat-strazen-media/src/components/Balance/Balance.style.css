@@ -1,8 +1,10 @@
 /* ✅ ОНОВЛЕНІ СТИЛІ для Balance: адаптивна сітка планів + кнопка знизу */
 
 .container-balance {
+  font-family: Urbanist, sans-serif;
   position: relative;
-  padding: 84px 445px;
+  /* padding: 84px 445px; */
+  padding: 84px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +30,10 @@ img {
 
 .elipse-balance {
   top: 0;
-  left: 0;
+  /* left: 0; */
+  left: 50%;
+  transform: translateX(-50%);
+
 }
 
 .elipse-form {
@@ -38,7 +43,9 @@ img {
 
 .elipse-down {
   bottom: 0;
-  left: 0;
+  /* left: 0; */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .form-balance {
@@ -50,13 +57,14 @@ img {
   z-index: 2;
   background-color: transparent;
   max-width: 900px;
-  width: 100%;
+  /* width: 100%; */
+  width: 38.1vw;
   box-sizing: border-box;
 }
 
 .container-button {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 24px;
   margin-top: 32px;
@@ -64,6 +72,7 @@ img {
 
 .plan-card,
 .button-balance {
+  font-family: Urbanist, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -91,7 +100,7 @@ img {
 }
 
 .button-balance:hover {
-  background-color: rgba(107, 80, 239, 0.25);
+  background-color: rgba(107, 80, 239, 0.15);
 }
 
 .text-balance {
@@ -129,6 +138,7 @@ img {
 }
 
 .container-btn-price {
+  font-family: Urbanist, sans-serif;
   display: flex;
   align-items: center;
   margin-top: 24px;
@@ -172,6 +182,7 @@ img {
 }
 
 .return-accaunt {
+  font-family: Urbanist, sans-serif;
   font-size: 16px;
   color: #ffffff;
   background-color: #6b50ef;
