@@ -146,7 +146,7 @@ input:focus {
   align-items: center;
   padding: 13px;
   margin-bottom: 16px;
-  background-color: #2D303C;
+  background-color: rgba(34, 37, 49, 1);
   border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
