@@ -581,10 +581,10 @@ border-radius: 24px;
 
 }
 
-.last_message {
+/* .last_message {
   flex: 1;
   min-width: 0;
-}
+} */
 
 @media (max-width: 768px) {
   /* .inputtext_container button{
@@ -668,10 +668,10 @@ border-radius: 24px;
 
 
 
-  .chat-layout .chat_window,
+  /* .chat-layout .chat_window,
 .chat-layout .chat_window_placeholder {
   display: none; 
-}
+} */
 }
 
 .time-left {
