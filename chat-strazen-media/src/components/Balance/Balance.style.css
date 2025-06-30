@@ -51,15 +51,22 @@ img {
 .form-balance {
   position: relative;
   padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  /* border: 1px solid rgba(255, 255, 255, 0.03); */
+  border: 1px solid rgba(20, 22, 31, 0.5);
   border-radius: 16px;
   text-align: center;
   z-index: 2;
   background-color: transparent;
-  max-width: 900px;
+  /* max-width: 900px; */
   /* width: 100%; */
+  max-width: 600px;
   width: 38.1vw;
+  min-width: 340px;
   box-sizing: border-box;
+
+  backdrop-filter: blur(10px);/*то фігма отой бакграунд блюч;*/
+
+
 }
 
 .container-button {
