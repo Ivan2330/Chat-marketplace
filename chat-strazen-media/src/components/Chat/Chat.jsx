@@ -121,7 +121,11 @@ const Chat = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const chatsData = await chatsRes.json();
-      setAllChats(Array.isArray(chatsData) ? chatsData : [chatsData]);
+      const chatsWithLastText = chatsData.map(chat => ({
+        ...chat,
+        last_message_text: chat.messages?.slice(-1)[0]?.text || ''
+      }));
+      setAllChats(Array.isArray(chatsWithLastText) ? chatsWithLastText : [chatsWithLastText]);
 
       fetchMessages();
       connectWebSocket(chatId, token, userData.role);
@@ -144,7 +148,7 @@ const Chat = () => {
       stopTimer();
       setMessages([]);
     };
-  }, [chatId]); 
+  }, [chatId]);
 
   useEffect(() => {
     const handleUnload = () => stopTimer();
@@ -180,11 +184,12 @@ const Chat = () => {
                     }}
                   >
                     <div className="conversation_info">
-                      <div className="container-icon-text">
-                        <img src={iconExpert} alt="avatar" className="img-expert" />
-                        <span className="expert_name" style={{ marginLeft: 12 }}>{other}</span>
-                        <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
+                      <img src={iconExpert} alt="avatar" className="img-expert" />
+                      <div className="container-text-expert">
+                        <span className="expert_name">{other}</span>
+                        <p className="last_message">{chat?.last_message_text || 'No messages yet.'}</p>
                       </div>
+                      <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
                     </div>
                   </div>
                 );
@@ -247,5 +252,5 @@ const Chat = () => {
     </>
   );
 };
-// com
+
 export default Chat;
