@@ -467,11 +467,7 @@ const Chat = () => {
                           <span className="expert_name">{other}</span>
                           <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
                         </div>
-                        <div className="bottom_row">
-                          <p className={`last_message ${!chat.last_message_text ? 'no_message' : ''}`}>
-                            {chat.last_message_text || 'Start chatting!'}
-                          </p>
-                        </div>
+                        <p className="last_message">{chat?.last_message_text || 'No messages yet.'}</p>
                       </div>
                     </div>
                   </div>
@@ -539,4 +535,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
