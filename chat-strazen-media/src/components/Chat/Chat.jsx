@@ -121,12 +121,22 @@ const Chat = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const chatsData = await chatsRes.json();
-      const chatsWithLastText = chatsData.map(chat => ({
-        ...chat,
-        last_message_text: chat.messages?.slice(-1)[0]?.text || ''
-      }));
-      setAllChats(Array.isArray(chatsWithLastText) ? chatsWithLastText : [chatsWithLastText]);
 
+      // Окремий fetch для останнього повідомлення по кожному чату
+      const chatsWithLastText = await Promise.all(
+        chatsData.map(async chat => {
+          try {
+            const msgRes = await fetch(`${API_URL}/chats/message/${chat._id}`);
+            const msgs = await msgRes.json();
+            const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1].text : '';
+            return { ...chat, last_message_text: lastMsg };
+          } catch {
+            return { ...chat, last_message_text: '' };
+          }
+        })
+      );
+
+      setAllChats(chatsWithLastText);
       fetchMessages();
       connectWebSocket(chatId, token, userData.role);
     } catch (err) {
@@ -196,8 +206,8 @@ const Chat = () => {
               })}
           </div>
 
-          <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`} style={{ position: 'relative', zIndex: 2 }}>
-            <div className="chat_window_header" style={{ position: 'relative', zIndex: 3 }}>
+          <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`}>
+            <div className="chat_window_header">
               <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
               <div className="header_info">
                 <h3 className="expert-name">Chat</h3>
@@ -209,7 +219,7 @@ const Chat = () => {
               {role === "client" && timeLeft !== null && (
                 <span className="time-left">⏳ {timeLeft} min</span>
               )}
-              <img src={smallMonn} alt="smallMonn" style={{ width: 36, height: 36 }} />
+              <img src={smallMonn} alt="moon" style={{ width: 36, height: 36 }} />
             </div>
 
             <div className="chats_display">
@@ -226,7 +236,7 @@ const Chat = () => {
 
             <div className="inputtext_container">
               <span className="container-star-chat">
-                <img src={iconStar} alt="iconStar" style={{ width: 24, height: 24 }} />
+                <img src={iconStar} alt="iconStar" />
               </span>
               <input
                 type="text"
@@ -237,13 +247,15 @@ const Chat = () => {
                 disabled={isBlocked}
               />
               <button onClick={sendMessage} disabled={isBlocked}>
-                <img src={buttonSend} alt="buttonSend" style={{ width: 24, height: 24 }} />
+                <img src={buttonSend} alt="Send" />
               </button>
             </div>
 
             {wsClosed && role === "client" && timeLeft === 0 && (
               <div className="reconnect">
-                <button onClick={() => connectWebSocket(chatId, localStorage.getItem("accessToken"), role)}>🔁 Reconnect</button>
+                <button onClick={() => connectWebSocket(chatId, localStorage.getItem("accessToken"), role)}>
+                  🔁 Reconnect
+                </button>
               </div>
             )}
           </div>
