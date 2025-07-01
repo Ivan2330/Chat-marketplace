@@ -122,7 +122,6 @@ const Chat = () => {
       });
       const chatsData = await chatsRes.json();
 
-      // Окремий fetch для останнього повідомлення по кожному чату
       const chatsWithLastText = await Promise.all(
         chatsData.map(async chat => {
           try {
@@ -193,13 +192,15 @@ const Chat = () => {
                       setShowChatList(false);
                     }}
                   >
-                    <div className="conversation_info">
+                    <div className="container-icon-text">
                       <img src={iconExpert} alt="avatar" className="img-expert" />
                       <div className="container-text-expert">
-                        <span className="expert_name">{other}</span>
+                        <div className="top_row">
+                          <span className="expert_name">{other}</span>
+                          <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
+                        </div>
                         <p className="last_message">{chat?.last_message_text || 'No messages yet.'}</p>
                       </div>
-                      <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
                     </div>
                   </div>
                 );
