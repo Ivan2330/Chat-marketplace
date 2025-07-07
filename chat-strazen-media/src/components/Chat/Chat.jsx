@@ -73,6 +73,7 @@ const Chat = () => {
   const connectWebSocket = async (chatId, token, userRole) => {
     const updatedUser = await fetchFreshUser();
     if (!chatId || !token) return;
+    if (ws.current) ws.current.close();
     ws.current = new WebSocket(`${WS_URL}/ws/chat/${chatId}?token=${token}`);
     setWsClosed(false);
 
@@ -103,7 +104,10 @@ const Chat = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch(`${API_URL}/chats/message/${chatId}`);
+      const token = localStorage.getItem("accessToken");
+      const res = await fetch(`${API_URL}/chats/message/${chatId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       setMessages(data);
     } catch (err) {
@@ -121,9 +125,10 @@ const Chat = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const chatsData = await chatsRes.json();
+      const chatsArray = Array.isArray(chatsData) ? chatsData : [chatsData];
 
       const chatsWithLastText = await Promise.all(
-        chatsData.map(async chat => {
+        chatsArray.map(async chat => {
           try {
             const msgRes = await fetch(`${API_URL}/chats/message/${chat._id}`);
             const msgs = await msgRes.json();
@@ -136,7 +141,7 @@ const Chat = () => {
       );
 
       setAllChats(chatsWithLastText);
-      fetchMessages();
+      await fetchMessages();
       connectWebSocket(chatId, token, userData.role);
     } catch (err) {
       console.error("Initialization failed", err);
@@ -265,5 +270,5 @@ const Chat = () => {
     </>
   );
 };
-//com
+
 export default Chat;
