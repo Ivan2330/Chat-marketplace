@@ -24,7 +24,7 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - "8080:80"     # внутрішній HTTP для certbot
+      - "8880:80"     # внутрішній HTTP для certbot
       - "8443:443"    # HTTPS на Cloudflare
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
