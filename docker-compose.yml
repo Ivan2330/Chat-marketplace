@@ -15,17 +15,16 @@ services:
     depends_on:
       - mongo
 
+
   nginx:
     build:
       context: ./chat-strazen-media
       args:
-        VITE_API_URL: "https://starzen-psychics.com:8443/api"
-        VITE_WS_URL: "wss://starzen-psychics.com:8443"
+        VITE_API_URL: "https://starzen-psychics.com/api"
+        VITE_WS_URL: "wss://starzen-psychics.com"
     container_name: nginx
     restart: always
-    ports:
-      - "8880:80"     # внутрішній HTTP для certbot
-      - "8443:443"    # HTTPS на Cloudflare
+    ports: ["80:80", "443:443"]
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/certbot/conf:/etc/letsencrypt:ro
@@ -41,10 +40,9 @@ services:
       - ./nginx/certbot/www:/var/www/certbot
     entrypoint: >
       sh -c "while :; do
-        certbot renew --webroot -w /var/www/certbot --quiet --agree-tos &&
-        nginx -s reload 2>/dev/null || true;
-        sleep 12h;
-      done"
+            certbot renew --webroot -w /var/www/certbot --quiet --agree-tos
+            nginx -s reload 2>/dev/null || true
+            sleep 12h; done"
 
   mongo:
     image: mongo:6.0
@@ -59,3 +57,4 @@ services:
 
 volumes:
   mongo_data:
+
