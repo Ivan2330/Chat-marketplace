@@ -130,6 +130,12 @@ img {
   color: #a1a2a5;
 }
 
+.pricing-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .number {
   font-weight: 700;
   font-size: 48px;
@@ -194,19 +200,28 @@ img {
   font-family: Urbanist, sans-serif;
   font-size: 16px;
   color: #ffffff;
+  font-weight: 600;
   background-color: #6b50ef;
   border-radius: 16px;
   border: none;
   padding: 16px;
   width: 100%;
-  max-width: 400px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 2;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.return-accaunt:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 768px) {
   .button-balance,
   .return-accaunt {
     width: 100%;
+  }
+
+  .button-balance {
+    max-width: 149px;
   }
 }

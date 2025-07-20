@@ -103,7 +103,7 @@ const Balance = () => {
                 <div className="popular-balance">Most Popular</div>
               )}
 
-              <div>
+              <div className="pricing-container">
                 <div>
                   <p className="number">{plan.minutes}</p>
 
