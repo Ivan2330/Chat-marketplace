@@ -3,7 +3,6 @@
 .container-balance {
   font-family: Urbanist, sans-serif;
   position: relative;
-  /* padding: 84px 445px; */
   padding: 84px 0;
   display: flex;
   justify-content: center;
@@ -30,10 +29,8 @@ img {
 
 .elipse-balance {
   top: 0;
-  /* left: 0; */
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 .elipse-form {
@@ -43,38 +40,34 @@ img {
 
 .elipse-down {
   bottom: 0;
-  /* left: 0; */
   left: 50%;
   transform: translateX(-50%);
 }
 
 .form-balance {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
   padding: 24px;
-  /* border: 1px solid rgba(255, 255, 255, 0.03); */
-  border: 1px solid rgba(20, 22, 31, 0.5);
-  border-radius: 16px;
+  border: 1px solid #20222a;
+  border-radius: 24px;
   text-align: center;
   z-index: 2;
-  background-color: transparent;
-  /* max-width: 900px; */
-  /* width: 100%; */
-  max-width: 600px;
-  width: 38.1vw;
-  min-width: 340px;
+  max-width: 550px;
+  width: 100%;
   box-sizing: border-box;
-
-  backdrop-filter: blur(10px);/*то фігма отой бакграунд блюч;*/
-
-
+  backdrop-filter: blur(10px);
+  background: rgba(20, 22, 31, 0.5);
 }
 
 .container-button {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 24px;
-  margin-top: 32px;
+  width: 100%;
+  gap: 12px;
 }
 
 .plan-card,
@@ -82,20 +75,19 @@ img {
   font-family: Urbanist, sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 24px;
   align-items: center;
   padding: 24px;
   background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   text-align: center;
-  width: 100%;
-  max-width: 260px;
+  flex: 1 1 auto;
   box-sizing: border-box;
   cursor: pointer;
+  max-width: 159px;
   color: white;
-  font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-in-out;
   position: relative;
 }
 
@@ -103,17 +95,33 @@ img {
 .button-balance:focus,
 .button-balance.active-state {
   background-color: rgba(107, 80, 239, 0.15);
-  border: 1px solid #6B50EF;
+  border: 1px solid #6b50ef;
+}
+
+.button-balance.selected > .container-btn-price {
+  background-color: rgba(107, 80, 239, 0.15);
+  color: #6b50ef;
 }
 
 .button-balance:hover {
   background-color: rgba(107, 80, 239, 0.15);
 }
 
+.button-balance:hover > .container-btn-price {
+  background-color: rgba(107, 80, 239, 0.15);
+  color: #6b50ef;
+}
+
+.plan-heading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .text-balance {
   font-size: 24px;
-  margin-bottom: 12px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .text-small-balance,
@@ -122,42 +130,33 @@ img {
   color: #a1a2a5;
 }
 
-.text-small-balance-down {
-  margin-top: 48px;
-  margin-bottom: 48px;
-}
-
 .number {
-  font-weight: bold;
+  font-weight: 700;
   font-size: 48px;
-  color: #ffffff;
 }
 
 .plus-minutes {
   color: #75ef50;
-  font-size: 18px;
+  font-weight: 600;
 }
 
 .minutes {
   color: #ffffff;
   font-size: 20px;
-  margin-top: 6px;
+  font-weight: 600;
 }
 
 .container-btn-price {
   font-family: Urbanist, sans-serif;
   display: flex;
+  justify-content: center;
+  height: 31px;
   align-items: center;
-  margin-top: 24px;
-  background-color: #262831;
+  gap: 8px;
   border-radius: 8px;
   padding: 6px 12px;
-  gap: 8px;
-}
-
-.price {
-  color: #6b50ef;
-  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+  background-color: #262831;
 }
 
 .no-price {
@@ -180,12 +179,15 @@ img {
   position: absolute;
   background-color: #6b50ef;
   color: #ffffff;
-  font-size: 14px;
+  width: 118px;
   border-radius: 24px;
   padding: 6px 12px;
-  top: -12px;
-  left: 20px;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: Urbanist, sans-serif;
+  font-weight: 600;
+  text-align: center;
 }
 
 .return-accaunt {
@@ -198,24 +200,13 @@ img {
   padding: 16px;
   width: 100%;
   max-width: 400px;
-  margin-top: 32px;
   cursor: pointer;
   z-index: 10;
 }
 
 @media (max-width: 768px) {
-
   .button-balance,
   .return-accaunt {
     width: 100%;
-  }
-
-  .container-button {
-    gap: 16px;
-  }
-
-  .popular-balance {
-    left: 16px;
-    font-size: 13px;
   }
 }

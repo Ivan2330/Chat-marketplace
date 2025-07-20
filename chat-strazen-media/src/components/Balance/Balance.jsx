@@ -1,10 +1,9 @@
 import "./Balance.style.css";
 import React, { useState, useEffect } from "react";
-import elipseBalance from '../../assets/Ellipse-balance.png';
-import elipseForm from '../../assets/Ellipse-form-balance.png';
+import elipseBalance from "../../assets/Ellipse-balance.png";
+import elipseForm from "../../assets/Ellipse-form-balance.png";
 import elipseDown from "../../assets/Ellipse-balance-down.png";
 import { API_URL } from "../../../config";
-
 
 const Balance = () => {
   const [plans, setPlans] = useState([]);
@@ -78,42 +77,67 @@ const Balance = () => {
   return (
     <section className="container-balance">
       <img className="elipse-balance" src={elipseBalance} alt="elipseBalance" />
+
       <div className="form-balance">
         <img className="elipse-form" src={elipseForm} alt="elipseForm" />
-        <p className="text-balance">Select Amount</p>
-        <p className="text-small-balance">Recommended Plans</p>
+
+        <div className="plan-heading-container">
+          <h2 className="text-balance">Select Amount</h2>
+
+          <p className="text-small-balance">Recommended Plans</p>
+        </div>
+
         <div className="container-button">
           {plans.map((plan) => (
             <button
               key={plan._id || plan.stripe_price_id}
-              className={`button-balance ${selectedPlan === plan._id ? "selected" : ""}`}
+              className={`button-balance ${
+                selectedPlan === plan._id ? "selected" : ""
+              }`}
               onClick={() => {
                 console.log("Plan selected:", plan);
                 setSelectedPlan(plan._id);
               }}
             >
               {plan.is_most_popular && (
-                <p className="popular-balance">Most Popular</p>
+                <div className="popular-balance">Most Popular</div>
               )}
-              <p className="number">{plan.minutes}</p>
-              <p className="minutes">minutes</p>
-              <p className="plus-minutes">+{plan.bonus_minutes} free min</p>
+
+              <div>
+                <div>
+                  <p className="number">{plan.minutes}</p>
+
+                  <p className="minutes">minutes</p>
+                </div>
+
+                <p className="plus-minutes">+{plan.bonus_minutes} free min</p>
+              </div>
+
               <div className="container-btn-price">
                 <p className="price">${plan.price_usd.toFixed(2)}</p>
               </div>
             </button>
           ))}
         </div>
+
         <p className="text-small-balance-down">
-          You can hang up any time. Unused funds will be <br /> returned to your account.
+          You can hang up any time. Unused funds will be <br /> returned to your
+          account.
         </p>
-        <button
-          className="return-accaunt"
-          onClick={handleConfirm}
-        >
+
+        <button className="return-accaunt" onClick={handleConfirm}>
           Next
         </button>
-        <img className="elipse-down" src={elipseDown} alt="elipseDown" />
+
+        <img
+          className="elipse-down"
+          src={elipseDown}
+          alt="elipseDown"
+          style={{
+            borderBottomLeftRadius: "24px",
+            borderBottomRightRadius: "24px",
+          }}
+        />
       </div>
     </section>
   );
