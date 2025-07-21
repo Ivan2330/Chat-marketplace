@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './Chat.styles.css';
+import { useEffect, useState, useRef } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import smallMonn from "../../assets/icon-moon-small.png";
-import iconStar from '../../assets/iconstar.png';
-import iconExpert from '../../assets/icon-girl.png';
-import buttonSend from '../../assets/icon-send.png';
+import iconStar from "../../assets/iconstar.png";
+import iconExpert from "../../assets/icon-girl.png";
+import buttonSend from "../../assets/icon-send.png";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_URL, WS_URL } from '../../../config';
+import { API_URL, WS_URL } from "../../../config";
+import "./Chat.styles.css";
 
 const formatTimestamp = (timestamp) => {
   if (!timestamp) return "–";
   const date = new Date(timestamp);
   const time = date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
+    hour: "2-digit",
+    minute: "2-digit",
   });
   const formattedDate = date.toLocaleDateString();
   return `${formattedDate}, ${time}`;
@@ -27,7 +27,7 @@ const Chat = () => {
   const [userId, setUserId] = useState(null);
   const [role, setRole] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [timeLeft, setTimeLeft] = useState(null);
   const [isBlocked, setIsBlocked] = useState(false);
   const [wsClosed, setWsClosed] = useState(false);
@@ -48,7 +48,7 @@ const Chat = () => {
     stopTimer();
     setTimeLeft(initialMinutes);
     timerRef.current = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         if (prev > 1) return prev - 1;
         clearInterval(timerRef.current);
         setIsBlocked(true);
@@ -71,6 +71,7 @@ const Chat = () => {
   };
 
   const connectWebSocket = async (chatId, token, userRole) => {
+    console.log(userRole);
     const updatedUser = await fetchFreshUser();
     if (!chatId || !token) return;
     if (ws.current) ws.current.close();
@@ -91,7 +92,7 @@ const Chat = () => {
         return;
       }
       if (data.text) {
-        setMessages(prev => [...prev, data]);
+        setMessages((prev) => [...prev, data]);
       }
     };
 
@@ -128,14 +129,14 @@ const Chat = () => {
       const chatsArray = Array.isArray(chatsData) ? chatsData : [chatsData];
 
       const chatsWithLastText = await Promise.all(
-        chatsArray.map(async chat => {
+        chatsArray.map(async (chat) => {
           try {
             const msgRes = await fetch(`${API_URL}/chats/message/${chat._id}`);
             const msgs = await msgRes.json();
-            const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1].text : '';
+            const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1].text : "";
             return { ...chat, last_message_text: lastMsg };
           } catch {
-            return { ...chat, last_message_text: '' };
+            return { ...chat, last_message_text: "" };
           }
         })
       );
@@ -149,10 +150,16 @@ const Chat = () => {
   };
 
   const sendMessage = () => {
-    if (!input.trim() || isBlocked || !ws.current || ws.current.readyState !== WebSocket.OPEN) return;
+    if (
+      !input.trim() ||
+      isBlocked ||
+      !ws.current ||
+      ws.current.readyState !== WebSocket.OPEN
+    )
+      return;
     const msg = { text: input, sender_id: userId, chat_id: chatId };
     ws.current.send(JSON.stringify(msg));
-    setInput('');
+    setInput("");
   };
 
   useEffect(() => {
@@ -179,32 +186,55 @@ const Chat = () => {
   }, [messages]);
 
   return (
-    <>
+    <div className="chat-wrapper">
       <div className="chat-page-glow"></div>
       <div className="chat-app-container">
         <div className="chat-layout">
-          <div className={`chat_list_panel ${!showChatList ? 'hidden-on-mobile' : ''}`}>
+          <div
+            className={`chat_list_panel ${
+              !showChatList ? "hidden-on-mobile" : ""
+            }`}
+          >
             {allChats
-              .sort((a, b) => new Date(b.last_message_at || 0) - new Date(a.last_message_at || 0))
-              .map(chat => {
-                const other = chat.usernames?.find(name => name !== user?.username);
+              .sort(
+                (a, b) =>
+                  new Date(b.last_message_at || 0) -
+                  new Date(a.last_message_at || 0)
+              )
+              .map((chat) => {
+                const other = chat.usernames?.find(
+                  (name) => name !== user?.username
+                );
                 return (
                   <div
                     key={chat._id}
-                    className={`conversation_item ${chat._id === chatId ? 'active' : ''}`}
+                    className={`conversation_item ${
+                      chat._id === chatId ? "active" : ""
+                    }`}
                     onClick={() => {
                       navigate(`/chat/${chat._id}`);
                       setShowChatList(false);
                     }}
                   >
                     <div className="container-icon-text">
-                      <img src={iconExpert} alt="avatar" className="img-expert" />
+                      <img
+                        src={iconExpert}
+                        alt="avatar"
+                        className="img-expert"
+                      />
+
                       <div className="container-text-expert">
                         <div className="top_row">
                           <span className="expert_name">{other}</span>
-                          <span className="last_message_time">{formatTimestamp(chat.last_message_at)}</span>
+
+                          <span className="last_message_time">
+                            {formatTimestamp(chat.last_message_at)}
+                          </span>
                         </div>
-                        <p className="last_message">{chat?.last_message_text || 'No messages yet.'}</p>
+
+                        <p className="last_message">
+                          {chat?.last_message_text || "No messages yet."}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -212,28 +242,49 @@ const Chat = () => {
               })}
           </div>
 
-          <div className={`chat_window ${showChatList ? 'hidden-on-mobile' : ''}`}>
+          <div
+            className={`chat_window ${showChatList ? "hidden-on-mobile" : ""}`}
+          >
             <div className="chat_window_header">
-              <IoChevronBack className="back_icon" onClick={() => setShowChatList(true)} />
+              <IoChevronBack
+                className="back_icon"
+                onClick={() => setShowChatList(true)}
+              />
+
               <div className="header_info">
                 <h3 className="expert-name">Chat</h3>
+
                 <div className="container-dot">
                   <span className="status_dot online"></span>
+
                   <span className="status_text online">Online</span>
                 </div>
               </div>
-              {role === "client" && timeLeft !== null && (
+
+              {/* {role === "client" && timeLeft !== null && (
                 <span className="time-left">⏳ {timeLeft} min</span>
-              )}
-              <img src={smallMonn} alt="moon" style={{ width: 36, height: 36 }} />
+              )} */}
+
+              <img
+                src={smallMonn}
+                alt="moon"
+                style={{ width: 36, height: 36 }}
+              />
             </div>
 
             <div className="chats_display">
               {messages.map((msg, idx) => (
-                <div key={idx} className={`message_bubble_wrapper ${msg.sender_id === userId ? 'my_message' : 'their_message'}`}>
+                <div
+                  key={idx}
+                  className={`message_bubble_wrapper ${
+                    msg.sender_id === userId ? "my_message" : "their_message"
+                  }`}
+                >
                   <div className="message_content">
                     <p className="message_text">{msg.text}</p>
-                    <span className="message_time">{formatTimestamp(msg.timestamp)}</span>
+                    <span className="message_time">
+                      {formatTimestamp(msg.timestamp)}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -244,14 +295,18 @@ const Chat = () => {
               <span className="container-star-chat">
                 <img src={iconStar} alt="iconStar" />
               </span>
+
               <input
                 type="text"
                 placeholder="Type your question..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') sendMessage(); }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") sendMessage();
+                }}
                 disabled={isBlocked}
               />
+
               <button onClick={sendMessage} disabled={isBlocked}>
                 <img src={buttonSend} alt="Send" />
               </button>
@@ -259,7 +314,15 @@ const Chat = () => {
 
             {wsClosed && role === "client" && timeLeft === 0 && (
               <div className="reconnect">
-                <button onClick={() => connectWebSocket(chatId, localStorage.getItem("accessToken"), role)}>
+                <button
+                  onClick={() =>
+                    connectWebSocket(
+                      chatId,
+                      localStorage.getItem("accessToken"),
+                      role
+                    )
+                  }
+                >
                   🔁 Reconnect
                 </button>
               </div>
@@ -267,7 +330,7 @@ const Chat = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
