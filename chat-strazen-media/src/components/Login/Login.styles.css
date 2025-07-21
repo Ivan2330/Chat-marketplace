@@ -11,35 +11,41 @@
   }
 }
 
-.container-login-all { 
- position: relative;
- left:50%;
- transform: translateX(-50%);
- /* width: 1094px; */
- gap: 24px;
+.container-login-all {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  /* width: 1094px; */
+  gap: 24px;
 }
-
 
 @media (max-width: 1200px) {
-.container-login-all { 
-  display: flex;
-  flex-direction: column-reverse;
-  /* align-items: center; */
+  .container-login-all {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 
+.heading-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .heading {
   font-size: 48px;
-  margin-bottom: 6px;
+  font-weight: 700;
+  text-align: center;
 }
 
-.welcome {   
-   display: flex;
+.welcome {
+  display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
   padding: 48px;
-  background-color: #14161f; 
+  background-color: #14161f;
   text-align: center;
   border-radius: 24px;
   max-width: 535px;
@@ -47,19 +53,16 @@
 }
 
 .elipse-login {
-   position: absolute;
-   top: 0;
-   left: 0;
-   border-top-left-radius: 24px;
- 
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top-left-radius: 24px;
 }
 
 .elipse-img {
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-
 }
-
 
 img {
   pointer-events: none;
@@ -79,7 +82,7 @@ img {
 }
 
 @media (min-width: 1200px) {
-  .container-login-all{
+  .container-login-all {
     width: 1094px;
   }
   .welcome {
@@ -87,21 +90,22 @@ img {
     top: 0;
     right: 0;
     padding: 290px 48px;
-    background-color: #14161f;   
+    background-color: #14161f;
     text-align: center;
     border-radius: 24px;
     height: 100%;
   }
 
-  .frame{
+  .frame {
     position: static;
     transform: none;
   }
 }
 
 .text-login {
+  font-weight: 500;
   color: #a1a2a5;
-  font-size: 14px;
+  text-align: center;
 }
 
 .btn-google {
@@ -112,7 +116,6 @@ img {
   border-radius: 16px;
   padding: 16px 24px;
   max-width: 219px;
-  display: flex;
   align-self: center;
   margin-top: 48px;
   margin-bottom: 48px;
@@ -120,14 +123,11 @@ img {
 }
 
 .container-img-btn {
-margin-right: 12px;
+  margin-right: 12px;
 }
-
-
 
 @media screen and (max-width: 479px) {
   .frame {
-  
     background-image: url("../../assets/Frame 1x.png");
     border-radius: 24px;
   }
@@ -146,7 +146,7 @@ margin-right: 12px;
 @media screen and (min-width: 480px) and (max-width: 767px) {
   .frame {
     padding: 220px 0;
-  
+
     background-image: url("../../assets/Frame-small 1x.png");
     border-radius: 24px;
   }
@@ -165,7 +165,6 @@ margin-right: 12px;
 
 @media screen and (min-width: 768px) {
   .frame {
-   
     padding: 220px 0;
     background-image: url("../../assets/Frame 1x.png");
     border-radius: 24px;
@@ -187,10 +186,9 @@ margin-right: 12px;
   .frame {
     border-radius: 24px;
     height: 877px;
-     background-image: url("../../assets/Frame 1x.png");
+    background-image: url("../../assets/Frame 1x.png");
   }
 }
-
 
 .btn-email-login {
   padding: 14px 20px;
@@ -198,7 +196,6 @@ margin-right: 12px;
   color: #fff;
   border: none;
   border-radius: 12px;
-  margin-top: 15px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -214,7 +211,6 @@ margin-right: 12px;
   border: none;
   color: #6b50ef;
   font-size: 14px;
-  margin-top: 15px;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -223,13 +219,20 @@ margin-right: 12px;
   color: #8a74ff;
 }
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 1;
+  width: 100%;
+}
 
-.form-login input {
-  padding: 14px 20px;
+.login-form__input {
+  padding: 1rem;
+  height: 52px;
   background-color: #1d1f2b;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  margin-top: 10px;
   color: #fff;
   font-size: 16px;
   outline: none;

@@ -1,5 +1,4 @@
 import "./Login.styles.css";
-import iconGoogle from "../../assets/icon-google.png";
 import elipse from "../../assets/ellipse-login.png";
 
 import { useState } from "react";
@@ -80,18 +79,23 @@ export default function Login({ onLoginSuccess }) {
     <section className="container-login">
       <div className="container-login-all">
         <div className="frame"></div>
+
         <div className="welcome">
           <div className="elipse-login">
             <img className="elipse-img" src={elipse} alt="elipse" />
           </div>
-          <h1 className="heading">Welcome to Starzen</h1>
-          <p className="text-login">
-            {registerMode
-              ? "Create an account to start your journey"
-              : "Sign in to connect with expert specialists"}
-          </p>
 
-          <form onSubmit={handleSubmit} className="form-login">
+          <div className="heading-container">
+            <h1 className="heading">Welcome to Starzen</h1>
+
+            <p className="text-login">
+              {registerMode
+                ? "Create an account to start your journey"
+                : "Sign in to connect with expert specialists"}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="login-form">
             {registerMode && (
               <input
                 type="text"
@@ -100,8 +104,10 @@ export default function Login({ onLoginSuccess }) {
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
                 required
+                className="login-form__input"
               />
             )}
+
             <input
               type="email"
               placeholder="Email"
@@ -109,7 +115,9 @@ export default function Login({ onLoginSuccess }) {
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
               required
+              className="login-form__input"
             />
+
             <input
               type="password"
               placeholder="Password"
@@ -117,27 +125,32 @@ export default function Login({ onLoginSuccess }) {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete={registerMode ? "new-password" : "current-password"}
               required
+              className="login-form__input"
             />
+
             <button type="submit" className="btn-email-login">
               {registerMode ? "Register" : "Login"}
             </button>
           </form>
 
-          <button
-            className="btn-toggle-mode"
-            onClick={() => setRegisterMode((prev) => !prev)}
-          >
-            {registerMode
-              ? "Already have an account? Login"
-              : "Don't have an account? Register"}
-          </button>
+          <div>
+            <button
+              className="btn-toggle-mode"
+              onClick={() => setRegisterMode((prev) => !prev)}
+            >
+              {registerMode
+                ? "Already have an account? Login"
+                : "Don't have an account? Register"}
+            </button>
 
-          <p className="text-login">
-            By {registerMode ? "registering" : "signing in"}, you agree to our <br />
-            Terms of Service and Privacy Policy
-          </p>
+            <p className="text-login">
+              By {registerMode ? "registering" : "signing in"}, you agree to our{" "}
+              <br />
+              Terms of Service and Privacy Policy
+            </p>
 
-          {error && <p className="error-message">{error}</p>}
+            {error && <p className="error-message">{error}</p>}
+          </div>
         </div>
       </div>
     </section>

@@ -17,8 +17,7 @@ function ProtectedRoute({ children, userProfile }) {
 function App() {
   const location = useLocation();
   const shouldShowFooter =
-    location.pathname !== "/login" &&
-    !location.pathname.startsWith("/chat"); // показувати футер на всьому, крім /chat і /chat/:id
+    location.pathname !== "/login" && !location.pathname.startsWith("/chat"); // показувати футер на всьому, крім /chat і /chat/:id
 
   const [userProfile, setUserProfile] = useState(null);
 
@@ -26,7 +25,7 @@ function App() {
     const storedProfile = localStorage.getItem("userProfile");
     if (storedProfile) {
       const profileData = JSON.parse(storedProfile);
-      setUserProfile(profileData);    
+      setUserProfile(profileData);
       console.log("App: User Profile loaded from localStorage:", profileData);
     }
   }, []);
@@ -47,14 +46,19 @@ function App() {
   return (
     <>
       <Header userProfile={userProfile} onLogout={handleLogout} />
+
       <Routes>
         <Route path="/" element={<Home userProfile={userProfile} />} />
+
         <Route
           path="/login"
           element={<Login onLoginSuccess={handleLoginSuccess} />}
         />
+
         <Route path="/terms" element={<Terms />} />
+
         <Route path="/topup" element={<Balance />} />
+
         <Route
           path="/chat/:chatId"
           element={
@@ -64,6 +68,7 @@ function App() {
           }
         />
       </Routes>
+
       {shouldShowFooter && <Footer />}
     </>
   );
