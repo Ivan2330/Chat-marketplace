@@ -63,11 +63,11 @@ async def initialize_data():
         },
         {
             "name": "Test_try",
-            "price_usd": 0.50,
+            "price_usd": 1,
             "minutes": 18,
             "bonus_minutes": 3,
             "total_minutes": 21,
-            "stripe_price_id": "price_1RngCGJLWV0e6A5QMUo6SXtS",
+            "stripe_price_id": "price_1RnhVaJLWV0e6A5Q7g20w75B",
             "is_most_popular": False
         },
     ]
