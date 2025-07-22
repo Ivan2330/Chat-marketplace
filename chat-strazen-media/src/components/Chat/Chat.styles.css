@@ -133,6 +133,7 @@ input:focus {
 }
 
 .conversation_item {
+  max-height: 112px;
   display: flex;
   align-items: center;
   padding: 24px;
