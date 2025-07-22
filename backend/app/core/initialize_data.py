@@ -61,6 +61,15 @@ async def initialize_data():
             "stripe_price_id": "price_1Rd172JLWV0e6A5QoSIcJ0j6",
             "is_most_popular": False
         },
+        {
+            "name": "Test_try",
+            "price_usd": 0.50,
+            "minutes": 18,
+            "bonus_minutes": 3,
+            "total_minutes": 21,
+            "stripe_price_id": "price_1RngCGJLWV0e6A5QMUo6SXtS",
+            "is_most_popular": False
+        },
     ]
 
     for plan in plans:
